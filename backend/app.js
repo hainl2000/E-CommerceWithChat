@@ -11,6 +11,7 @@ var app = express();
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
+var roomRouter = require('./routes/room');
 var authorizationMiddleware = require('./validate/authorizationAccount');
 
 
@@ -44,8 +45,12 @@ const corsConfig = {
 };
 app.use(cors(corsConfig));
 
+
+
+
 //
 app.use('/', indexRouter);
+// app.use('/chat',roomRouter);
 app.use('/user', authorizationMiddleware.authorizeUser,userRouter);
 app.use('/admin', authorizationMiddleware.authorizeAdmin,adminRouter);
 // app.use('/supporter');

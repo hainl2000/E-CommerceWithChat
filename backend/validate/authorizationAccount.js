@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser');
 
 const authorizeAdmin = (req,res,next) =>{
     const tokenUserId = req.cookies.userId;
-    console.log(req.cookies);
+    // console.log(req.cookies);
     if(!tokenUserId){
         console.log("Stop o day ");
         return res.status(403).send({
