@@ -12,23 +12,30 @@ const messageController = require('./controllers/message');
 //     return userId
 // }
 
-io.on("connection",function(socket){
+io.on("connection", function(socket){
     var cookies = cookie.parse(socket.handshake.headers.cookie);
     let userId = jwt.verify(cookies.userId,process.env.JWT_KEY);
     // var userId = cookies.userId;
-    let user = await AccountModel.findOne({
+    let user = AccountModel.findOne({
         _id : userId
     });
+
+    AccountModel.findOne({_id: userId}).then(response => {
+        if(response)
+        {
+            socket.io.engine.id = response._id;
+            socket.emit('connected')
+        }
+    })
     // io.engine.generateId = function (req) {
     // // generate a new custom id here
     // return 1
     // }
-    socket.io.engine.id = user._id;
 
     socket.on('join',async(data)=>{
 
     })
-    socket.on('loadMsg',(data) => {
+    socket.on('loadMsg',async (data) => {
         const {Msgs, error} = await roomController.loadMessages(data.roomId);
         !error ? socket.emit('messagesLoaded', { Msgs }) : socket.emit('noChatFound')
         // if(user.role == 1){
