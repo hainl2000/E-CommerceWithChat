@@ -16,9 +16,11 @@ var socket = require('socket.io');
 const io = socket(server)
 
 // io.listen(server)
-const AccountModel = require('./models/user');
 const jwt = require("jsonwebtoken");
+const AccountModel = require('./models/user');
 const roomController = require('./controllers/room');
+const roomAction = require('./action/roomAction');
+
 
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
@@ -78,38 +80,17 @@ app.use(function(err, req, res, next) {
     res.render('error');
 });
 
+
+
 io.on("connection", function(socket){
-    console.log(socket.handshake.headers.cookie)
     var cookies = cookie.parse(socket.handshake.headers.cookie);
-    let userId = jwt.verify(cookies.userId,process.env.JWT_KEY);
-    console.log(userId)
-    // var userId = cookies.userId;
-    // let user = AccountModel.findOne({
-    //     _id : userId
-    // });
-    
-    // AccountModel.findOne({_id: userId.userId}).then(response => {
-    //     if(response)
-    //     {
-    //         io.engine.generateId = function (req) {
-    //             // generate a new custom id here
-    //             return 1
-    //         }
-    //         socket.emit('connected')
-    //     }
-    // })
-
-    io.engine.generateId = userId.userId
-
-    console.log(socket.id)
-
-    // // io.engine.generateId = function (req) {
-    // // // generate a new custom id here
-    // // return 1
-    // // }
-
-    socket.on('join', (data) => {
-        console.log(data.message)
+    // console.log(cookies);
+    var userId = jwt.verify(cookies.userId,process.env.JWT_KEY);
+    console.log(userId.userId);
+    socket.on('join', async (data) => {
+        const users = await  roomAction.addUser(userId.userId, socket.id);
+        console.log(users);
+        console.log(data.message);
     })
     // socket.on('loadMsg',async (data) => {
     //     const {Msgs, error} = await roomController.loadMessages(data.roomId);
@@ -122,18 +103,18 @@ io.on("connection", function(socket){
 
     // socket.on('sendNewMsg', async ({ data }) =>
     // {
-    //   const { newMsg, error } = await sendMsg(data.userId, data.roomId , data.msg)
-    // //   const receiverSocket = findConnectedUser(msgSendToUserId)
+    //   const { newMsg, error } = await sendMsg(userId.userId, data.roomId , data.msg);
+    //   const receiver = findConnectedUser(msgSendToUserId);
   
     // //   if(receiverSocket)
     // //   {
-    // //     io.to(receiverSocket.socketId).emit('newMsgReceived', { newMsg })
+    // //     io.to(receiver.socketId).emit('newMsgReceived', { newMsg })
     // //   }
     // //   else
     // //   {
     // //     await setMsgToUnread(msgSendToUserId)
     // //   }
-    //     io.to(data.userId).emit("newMsgReceived",{newMsg});
+    //     io.to(receiver.socketId).emit("newMsgReceived",{newMsg});
     //   !error && socket.emit('msgSent', { newMsg });
     // })
 });
