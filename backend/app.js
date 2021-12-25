@@ -19,6 +19,7 @@ const io = socket(server)
 const jwt = require("jsonwebtoken");
 const AccountModel = require('./models/user');
 const roomController = require('./controllers/room');
+const msgController = require('./controllers/message')
 const roomAction = require('./action/roomAction');
 
 
@@ -80,18 +81,18 @@ app.use(function(err, req, res, next) {
     res.render('error');
 });
 
-
-
 io.on("connection", function(socket){
-    var cookies = cookie.parse(socket.handshake.headers.cookie);
-    // console.log(cookies);
-    var userId = jwt.verify(cookies.userId,process.env.JWT_KEY);
-    console.log(userId.userId);
-    socket.on('join', async (data) => {
-        const users = await  roomAction.addUser(userId.userId, socket.id);
-        console.log(users);
-        console.log(data.message);
-    })
+    if(socket.handshake.headers.cookie)
+    {
+        var cookies = cookie.parse(socket.handshake.headers.cookie);
+        // console.log(cookies);
+        var userId = jwt.verify(cookies.userId,process.env.JWT_KEY);
+        socket.on('join', async (data) => {
+            const users = await  roomAction.addUser(userId.userId, socket.id);
+        })
+    }
+
+    const admin = '61c5f8d8c2d8f5b84ef5edb9'
     // socket.on('loadMsg',async (data) => {
     //     const {Msgs, error} = await roomController.loadMessages(data.roomId);
     //     !error ? socket.emit('messagesLoaded', { Msgs }) : socket.emit('noChatFound')
@@ -101,22 +102,28 @@ io.on("connection", function(socket){
         
     // })
 
-    // socket.on('sendNewMsg', async ({ data }) =>
-    // {
-    //   const { newMsg, error } = await sendMsg(userId.userId, data.roomId , data.msg);
-    //   const receiver = findConnectedUser(msgSendToUserId);
-  
-    // //   if(receiverSocket)
-    // //   {
-    // //     io.to(receiver.socketId).emit('newMsgReceived', { newMsg })
-    // //   }
-    // //   else
-    // //   {
-    // //     await setMsgToUnread(msgSendToUserId)
-    // //   }
-    //     io.to(receiver.socketId).emit("newMsgReceived",{newMsg});
+    //data = {role, roomId, msg}
+    socket.on('sendNewMsg', async (data) =>
+    {
+      const { newMsg, error } = await msgController.sendMsg(data.role === 0 ? data.roomId : userId.userId, userId.userId, data.msg);
+      console.log('admin', admin, data.role)
+      if(data.role === 1)
+        var receiver = roomAction.findConnectedUser(admin);
+      else
+        var receiver = roomAction.findConnectedUser(data.roomId);
+        
+        //   if(receiverSocket)
+        //   {
+            //     io.to(receiver.socketId).emit('newMsgReceived', { newMsg })
+            //   }
+            //   else
+            //   {
+                //     await setMsgToUnread(msgSendToUserId)
+                //   }
+        console.log(newMsg)
+        io.to(receiver.socketId).emit("newMsgReceived",{newMsg});
     //   !error && socket.emit('msgSent', { newMsg });
-    // })
+    })
 });
 
 module.exports = app;

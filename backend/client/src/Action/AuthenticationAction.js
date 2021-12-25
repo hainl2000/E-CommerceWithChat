@@ -13,9 +13,9 @@ export function Login(params)
         }, {withCredentials: true}).then(response => {
             if(response.data.message === ACTIONS.AUTHENTICATION_FAILED)
             {
-                dispatch({ type: ACTIONS.LOGIN_SUCCESS, value: false })
+                dispatch({ type: ACTIONS.LOGIN_SUCCESS, value: {login: false} })
             }else{
-                dispatch({ type: ACTIONS.LOGIN_SUCCESS, value: true })
+                dispatch({ type: ACTIONS.LOGIN_SUCCESS, value: {login: true, role: response.data.role} })
             }
         })
     }
@@ -32,9 +32,9 @@ export function Signin(params)
         }, {withCredentials: true}).then(response => {
             if(response.data.message === ACTIONS.SIGN_UP_SUCCESS)
             {
-                dispatch({ type: ACTIONS.LOGIN_SUCCESS, value: true })
+                dispatch({ type: ACTIONS.LOGIN_SUCCESS, value: {login: true, role: response.data.role} })
             }else{
-                dispatch({ type: ACTIONS.LOGIN_SUCCESS, value: false })
+                dispatch({ type: ACTIONS.LOGIN_SUCCESS, value: {login: false} })
             }
         })
     }

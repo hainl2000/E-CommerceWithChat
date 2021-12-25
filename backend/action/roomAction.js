@@ -3,6 +3,7 @@ const users = []
 
 const addUser = async (userId, socketId) =>
 {
+    console.log(userId)
   const user = users.find(user => user.userId === userId)
 
   if(user && user.socketId === socketId)
@@ -35,7 +36,10 @@ const removeUser = async socketId =>
 }
 
 
-const findConnectedUser = userId => users.find(user => user.userId === userId)
+const findConnectedUser = userId => {
+    console.log(userId)
+    return users.find(user => user.userId === userId)
+}
 
 
 module.exports = { addUser, removeUser, findConnectedUser }

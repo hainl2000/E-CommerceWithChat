@@ -14,6 +14,7 @@ const getUser = state => state.user
 const getAllCategories = state => state.category
 const getProductByCate = state => state.product_by_cate
 const getAuthenStatus = state => state.login
+const getCurrentRole = state => state.role
 
 export const LoginModalSelector = createSelector(
     getLoginModal,
@@ -73,4 +74,9 @@ export const UserSelector = createSelector(
 export const AuthenStatusSelector = createSelector(
     getAuthenStatus,
     status => status
+)
+
+export const CurrentRoleSelector = createSelector(
+    getCurrentRole,
+    role => role
 )

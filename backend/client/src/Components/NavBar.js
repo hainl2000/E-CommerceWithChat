@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const NavBar = () => {
+const NavBar = ({socket}) => {
     const classes = useStyles()
 
     return (
@@ -35,7 +35,7 @@ const NavBar = () => {
                 <Grid container item xs={10} direction="column">
                     <Grid className={classes.upperNavBar} container item xs={10}>
                         <Grid item xs={9}>
-                            <SearchBar placeholder="Tìm sản phẩm, thương hiệu mong muốn..."/>
+                            <SearchBar placeholder="Tìm sản phẩm, thương hiệu mong muốn..." socket={socket}/>
                         </Grid>
                         <Grid item container xs={3}>
                             <User />

@@ -4,15 +4,15 @@ const RoomModel = require('../models/room');
 const MessageModel = require('../models/message');
 const AccountModel = require('../models/user');
 
-const sendMessage = async(req,res) => {
+const sendMsg = async (roomId, userId, msg) => {
     try{
-        const user = await AccountModel.findById(req.body.userId);
+        const user = await AccountModel.findById(userId);
         const room = await RoomModel.findOne({
-            roomId : req.body.roomId
+            roomId : roomId
         });
         const newMsg = new MessageModel({
-            content: req.body.content,
-            from : req.body.userId,
+            content: msg,
+            from : userId,
             sendAt : Date.now()
         });
         await newMsg.save((function (err) {
@@ -38,6 +38,7 @@ const sendMessage = async(req,res) => {
             from : user.username,
             sendAt : newMsg.sendAt
         };
+        console.log(newMsgReceived)
         // console.log(room);
         return newMsgReceived;
     }catch(err) {
@@ -47,5 +48,5 @@ const sendMessage = async(req,res) => {
 }
 
 module.exports = {
-    sendMessage
+    sendMsg
 }

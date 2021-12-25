@@ -15,12 +15,13 @@ function App() {
   useEffect(() => {
       socket.on('connected', () => console.log('connected'))
       socket.emit('join', {message: "connecteddd"})
+      socket.on('newMsgReceived', (data) => console.log(data))
   }, [])
 
   return (
     <div className="App">
       <Provider store={store}>
-        <PageRouter></PageRouter>
+        <PageRouter socket={socket}></PageRouter>
       </Provider>
     </div>
   );
