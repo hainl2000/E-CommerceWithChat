@@ -18,7 +18,8 @@ const CommonState = new Record({
     cart: [],
     products: [],
     category: [],
-    product_by_cate: []
+    product_by_cate: [],
+    role: null
 })
 
 const intialState = new CommonState()
@@ -96,9 +97,9 @@ export const CommonReducer = (state = intialState, action) => {
 
         case ACTIONS.LOGIN_SUCCESS:
             {
-                if(action.value)
+                if(action.value.login)
                 {
-                    return state.withMutations(s => s.set('login', true).set('loginModal', false))
+                    return state.withMutations(s => s.set('login', true).set('loginModal', false).set('role', action.value.role))
                 }else{
                     return state.withMutations(s => s.set('user', null).set('loginModal', false))
                 }
@@ -111,9 +112,9 @@ export const CommonReducer = (state = intialState, action) => {
 
         case ACTIONS.SIGN_UP_SUCCESS:
             {
-                if(action.value)
+                if(action.value.login)
                 {
-                    return state.withMutations(s => s.set('login', true).set('signinModal', false))
+                    return state.withMutations(s => s.set('login', true).set('signinModal', false).set('role', action.value.role))
                 }else{
                     return state.withMutations(s => s.set('user', null).set('signinModal', false))
                 }
@@ -121,7 +122,7 @@ export const CommonReducer = (state = intialState, action) => {
 
         case ACTIONS.LOG_OUT:
             {
-                return state.withMutations(s => s.set('login', false).set('user', null))
+                return state.withMutations(s => s.set('login', false).set('user', null).set('role', null))
             }
 
         case ACTIONS.GET_ALL_PRODUCTS:

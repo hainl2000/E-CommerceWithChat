@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { GetAllProducts, GetAllCategories } from './Action/CommonAction'
 import { Authenticate } from './Action/AuthenticationAction'
 
-const PageRouter = () => {
+const PageRouter = ({socket}) => {
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -21,7 +21,7 @@ const PageRouter = () => {
     return (
         <Router>
             <Routes>
-                <Route path="/" exact element={<Home />} />
+                <Route path="/" exact element={<Home socket={socket} />} />
                 <Route path="/product/:id" exact element={<ProductById />} />
                 <Route path="/cart" exact element={<Cart />} />
                 <Route path="/category/:id" exact element={<Category />} />

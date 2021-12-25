@@ -4,12 +4,12 @@ import ProductGallery from '../Components/ProductGallery';
 import { ProductsSelector } from '../Selector/CommonSelector';
 import { useSelector } from 'react-redux';
 
-const Home = () => {
+const Home = ({socket}) => {
     const products = useSelector(ProductsSelector)
 
     return (
         <div>
-            <NavBar />
+            <NavBar socket={socket}/>
 
             <ProductGallery items={products}/>
         </div>
