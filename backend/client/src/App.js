@@ -3,12 +3,14 @@ import {
     makeStyles
 } from '@material-ui/core';
 import './App.css';
-import CategoryList from './Components/Category/CategoryList';
+import CategoryList from './Components/CategoryList';
 import Footer from './Components/Footer';
 import NavBar from './Components/Navbar';
 import { useRef } from 'react';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import Cart from './Components/Cart';
+import { ProductInfo, ProductList } from './Components/Product';
+import Admin from './Components/Admin';
 
 const useStyles = makeStyles(() => ({
     scrollToTopButton: {
@@ -30,15 +32,18 @@ function App() {
     return (
         <div className="App">
             <div ref={top}/>
-            <NavBar/>
+            {/* <NavBar/> */}
 
             {/* <CategoryList/> */}
-            <Cart/>
+            {/* <Cart/> */}
+            {/* <ProductInfo/> */}
+            {/* <ProductList/> */}
+            <Admin/>
 
             {/* <IconButton className={classes.scrollToTopButton} onClick={() => top.current.scrollIntoView()}>
                 <ArrowUpwardIcon fontSize='large'/>
-            </IconButton>
-            <Footer/> */}
+            </IconButton> */}
+            {/* <Footer/> */}
         </div>
     );
 }

@@ -14,7 +14,9 @@ const useStyles = makeStyles(() => ({
         marginRight: 45,
         cursor: 'pointer',
         width: 200,
-        flex: 'none'
+        flex: 'none',
+        marginBottom: 10,
+        marginTop: 10,
     },
     media: {
         height: 200,
@@ -37,7 +39,7 @@ const useStyles = makeStyles(() => ({
     }
 }))
 
-const CategoryItem = () => {
+const ProductItem = () => {
     const classes = useStyles()
 
     return (
@@ -63,4 +65,4 @@ const CategoryItem = () => {
     )
 }
 
-export default CategoryItem
+export default ProductItem

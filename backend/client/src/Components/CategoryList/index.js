@@ -1,5 +1,5 @@
 import { Box } from "@material-ui/core"
-import Category from "."
+import Category from "./Category"
 
 const CategoryList = () => {
     return (

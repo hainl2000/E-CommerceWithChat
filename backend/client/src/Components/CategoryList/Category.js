@@ -4,7 +4,7 @@ import {
     makeStyles,
     Divider
 } from "@material-ui/core"
-import CategoryItem from "./CategoryItem"
+import ProductItem from "../Product/ProductItem"
 
 const useStyles = makeStyles(() => ({
     category: {
@@ -55,7 +55,7 @@ const Category = ({ category_name = 'Category' }) => {
                     </Typography>
                 </Box>
                 <Box component='div' className={classes.categoryItem}>
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(item => <CategoryItem key={item} />)}
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(item => <ProductItem key={item}/>)}
                 </Box>
             </Box>
             <Divider/>

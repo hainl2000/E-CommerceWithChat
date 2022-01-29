@@ -1,5 +1,7 @@
 import {
-    useState
+    useState,
+    useRef,
+    useEffect
 } from 'react'
 import {
     AppBar,
@@ -12,64 +14,19 @@ import {
     Box,
     Badge,
     Avatar,
-    makeStyles,
     withStyles,
     InputAdornment,
     Menu,
-    MenuItem
+    MenuItem,
+    Drawer
 } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import SearchIcon from '@material-ui/icons/Search';
 import HelpIcon from '@material-ui/icons/Help';
-import MyModal from '../MyModal';
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-        flexGrow: 1,
-        '& > .MuiAppBar-colorPrimary': {
-            color: '#000',
-            backgroundColor: '#fff'
-        }
-    },
-    menuButton: {
-        marginRight: theme.spacing(2),
-    },
-    title: {
-
-    },
-    buttonContainer: {
-        // flexGrow: 1,
-        display: 'flex',
-        justifyContent: 'end'
-    },
-    formContainer: {
-        flexGrow: 2,
-        '& > .MuiFormControl-root': {
-            width: '70%'
-        },
-        display: 'flex',
-        justifyContent: 'center'
-    },
-    searchButton: {
-        cursor: 'pointer'
-    },
-    avatar: {
-        marginLeft: 12,
-        marginRight: 12,
-        cursor: 'pointer'
-    },
-    menuItem: {
-        border: '1px solid #d3d4d5'
-    },
-    cartIcon: {
-        marginLeft: 0
-    },
-    cartIcon_extend: {
-        marginLeft: 48
-    }
-}))
+import { LoginModal, SignUpModal } from '../MyModal';
+import Inbox from './Inbox';
+import { useStyles } from './style';
 
 const StyledMenu = withStyles({
     paper: {
@@ -95,10 +52,14 @@ const NavBar = () => {
     const classes = useStyles()
     const [searchValue, setSearchValue] = useState('')
     const [anchorEl, setAnchorEl] = useState(null)
+    const [openDrawer, setOpenDrawer] = useState(false)
+    const [endTextEl, setEndTextEl] = useState(null)
+    const [missTextCount, setMissTextCount] = useState(2)
+    const endText = useRef(null)
 
     //test
     const [count, setCount] = useState(0)
-    const login = false
+    const login = true
     const [openModal, setOpenModal] = useState(false)
 
     const closeModalHandle = () => {
@@ -118,6 +79,10 @@ const NavBar = () => {
     const avatarClickHandle = e => {
         setAnchorEl(e.currentTarget)
     }
+
+    useEffect(() => {
+        endText.current?.scrollIntoView()
+    }, [endTextEl])
 
     return (
         <div className={classes.root}>
@@ -152,26 +117,35 @@ const NavBar = () => {
                     </Box>
                     <Box component="div" className={classes.buttonContainer}>
                         {login && 
-                        <IconButton>
-                            <HelpIcon />
+                        <IconButton onClick={() => {
+                            setOpenDrawer(true)
+                            setMissTextCount(0)
+                        }}>
+                            <Badge badgeContent={missTextCount} color='secondary'>
+                                <HelpIcon />
+                            </Badge>
                         </IconButton>}
                         <IconButton>
                             <Badge badgeContent={count} color='secondary'>
                                 <ShoppingCartIcon className={login ? classes.cartIcon : classes.cartIcon_extend}/>
                             </Badge>
                         </IconButton>
-                        {login ? <Avatar className={classes.avatar} onClick={e => avatarClickHandle(e)}>N</Avatar> : <Button onClick={() => setOpenModal(true)} color='inherit'>Login</Button>}
+                        {login ? <Avatar className={classes.avatar} onClick={e => avatarClickHandle(e)}>N</Avatar> : <Button className={classes.button} onClick={() => setOpenModal(true)} color='inherit'>Đăng nhập</Button>}
                         <StyledMenu
                             anchorEl={anchorEl}
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
-                            <MenuItem className={classes.menuItem} onClick={handleClose}>Log out</MenuItem>
+                            <MenuItem className={classes.menuItem} onClick={handleClose}>Đăng xuất</MenuItem>
                         </StyledMenu>
                     </Box>
                 </Toolbar>
             </AppBar>
-            <MyModal open={openModal} closeHandle={closeModalHandle}/>
+            <Drawer anchor='right' open={openDrawer} onClose={() => setOpenDrawer(false)}>
+                <Inbox/>
+            </Drawer>
+            <LoginModal open={openModal} closeHandle={closeModalHandle}/>
+            {/* <SignUpModal open={openModal} closeHandle={closeModalHandle}/> */}
         </div>
     )
 }
