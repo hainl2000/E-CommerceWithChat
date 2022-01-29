@@ -1,30 +1,51 @@
-import { Provider } from 'react-redux';
+import {
+    IconButton,
+    makeStyles
+} from '@material-ui/core';
 import './App.css';
-import PageRouter from './Router';
-import { CommonReducer } from './Reducer/CommonReducer'
-import { createStore, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk';
-import io from 'socket.io-client';
-import { useEffect } from 'react';
+import CategoryList from './Components/CategoryList';
+import Footer from './Components/Footer';
+import NavBar from './Components/Navbar';
+import { useRef } from 'react';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import Cart from './Components/Cart';
+import { ProductInfo, ProductList } from './Components/Product';
+import Admin from './Components/Admin';
 
-const socket = io.connect('/')
+const useStyles = makeStyles(() => ({
+    scrollToTopButton: {
+        position: 'fixed',
+        bottom: 50,
+        right: 10,
+        background: 'rgba(200,200,200,0.5)',
+        transition: 'background 250ms',
+        '&:hover': {
+            background: 'rgba(250, 250, 250, 0.7)'
+        }
+    }
+}))
 
 function App() {
-  const store = createStore(CommonReducer, applyMiddleware(thunk))
+    const classes = useStyles()
+    const top = useRef(null)
 
-  useEffect(() => {
-      socket.on('connected', () => console.log('connected'))
-      socket.emit('join', {message: "connecteddd"})
-      socket.on('newMsgReceived', (data) => console.log(data))
-  }, [])
+    return (
+        <div className="App">
+            <div ref={top}/>
+            {/* <NavBar/> */}
 
-  return (
-    <div className="App">
-      <Provider store={store}>
-        <PageRouter socket={socket}></PageRouter>
-      </Provider>
-    </div>
-  );
+            {/* <CategoryList/> */}
+            {/* <Cart/> */}
+            {/* <ProductInfo/> */}
+            {/* <ProductList/> */}
+            <Admin/>
+
+            {/* <IconButton className={classes.scrollToTopButton} onClick={() => top.current.scrollIntoView()}>
+                <ArrowUpwardIcon fontSize='large'/>
+            </IconButton> */}
+            {/* <Footer/> */}
+        </div>
+    );
 }
 
 export default App;
