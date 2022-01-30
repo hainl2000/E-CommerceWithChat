@@ -23,10 +23,12 @@ import {
 import HomeIcon from '@material-ui/icons/Home';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import SearchIcon from '@material-ui/icons/Search';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import HelpIcon from '@material-ui/icons/Help';
 import { LoginModal, SignUpModal } from '../MyModal';
 import Inbox from './Inbox';
 import { useStyles } from './style';
+import { useNavigate } from 'react-router';
 
 const StyledMenu = withStyles({
     paper: {
@@ -56,6 +58,8 @@ const NavBar = () => {
     const [endTextEl, setEndTextEl] = useState(null)
     const [missTextCount, setMissTextCount] = useState(2)
     const endText = useRef(null)
+    const top = useRef(null)
+    const navigate = useNavigate()
 
     //test
     const [count, setCount] = useState(0)
@@ -69,7 +73,7 @@ const NavBar = () => {
 
     const searchClickHandle = () => {
         setSearchValue('')
-        setCount(count => count + 1)
+        navigate('/category/1')
     }
 
     const handleClose = () => {
@@ -85,10 +89,10 @@ const NavBar = () => {
     }, [endTextEl])
 
     return (
-        <div className={classes.root}>
+        <div ref={top} className={classes.root}>
             <AppBar position='static'>
                 <Toolbar>
-                    <IconButton edge='start' className={classes.menuButton} color='inherit' aria-label='menu'>
+                    <IconButton edge='start' className={classes.menuButton} color='inherit' aria-label='menu' onClick={() => navigate('/')}>
                         <HomeIcon />
                     </IconButton>
                     <Typography variant='h6' className={classes.title}>
@@ -125,7 +129,7 @@ const NavBar = () => {
                                 <HelpIcon />
                             </Badge>
                         </IconButton>}
-                        <IconButton>
+                        <IconButton onClick={() => navigate('/cart/1')}>
                             <Badge badgeContent={count} color='secondary'>
                                 <ShoppingCartIcon className={login ? classes.cartIcon : classes.cartIcon_extend}/>
                             </Badge>
@@ -146,6 +150,9 @@ const NavBar = () => {
             </Drawer>
             <LoginModal open={openModal} closeHandle={closeModalHandle}/>
             {/* <SignUpModal open={openModal} closeHandle={closeModalHandle}/> */}
+            <IconButton className={classes.scrollToTopButton} onClick={() => top.current.scrollIntoView()}>
+                <ArrowUpwardIcon fontSize='large'/>
+            </IconButton>
         </div>
     )
 }

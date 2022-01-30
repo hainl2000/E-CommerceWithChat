@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import { Rating } from '@material-ui/lab';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import { useNavigate } from 'react-router';
 
 const useStyles = makeStyles(() => ({
     cardItem: {
@@ -41,6 +42,7 @@ const useStyles = makeStyles(() => ({
 
 const ProductItem = () => {
     const classes = useStyles()
+    const navigate = useNavigate()
 
     return (
         <Card elevation={3} className={classes.cardItem}>
@@ -48,8 +50,9 @@ const ProductItem = () => {
                 className={classes.media}
                 image="https://cdn.tgdd.vn/Products/Images/42/22230/iphone_3GS_b.jpg"
                 title="product"
+                onClick={() => navigate('/product/1')}
             />
-            <CardContent className={classes.content}>
+            <CardContent className={classes.content} onClick={() => navigate('/product/1')}>
                 <Typography variant='h6'>
                     Phone
                 </Typography>
@@ -59,7 +62,7 @@ const ProductItem = () => {
             </CardContent>
             <CardActions className={classes.actions} disableSpacing>
                 <Rating className={classes.rating} value={3} readOnly/>
-                <AddShoppingCartIcon/>
+                <AddShoppingCartIcon onClick={() => navigate(('/cart/1'))}/>
             </CardActions>
         </Card>
     )

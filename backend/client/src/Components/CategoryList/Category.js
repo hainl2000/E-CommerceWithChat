@@ -5,6 +5,7 @@ import {
     Divider
 } from "@material-ui/core"
 import ProductItem from "../Product/ProductItem"
+import { useNavigate } from 'react-router';
 
 const useStyles = makeStyles(() => ({
     category: {
@@ -42,6 +43,7 @@ const useStyles = makeStyles(() => ({
 
 const Category = ({ category_name = 'Category' }) => {
     const classes = useStyles()
+    const navigate = useNavigate()
 
     return (
         <>
@@ -50,7 +52,7 @@ const Category = ({ category_name = 'Category' }) => {
                     <Typography variant="h6">
                         {category_name}
                     </Typography>
-                    <Typography>
+                    <Typography onClick={() => navigate('/category/2')}>
                         Xem thêm
                     </Typography>
                 </Box>

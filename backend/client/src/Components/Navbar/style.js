@@ -84,4 +84,14 @@ export const useStyles = makeStyles((theme) => ({
         borderRadius: 5,
         color: '#fff'
     },
+    scrollToTopButton: {
+        position: 'fixed',
+        bottom: 50,
+        right: 10,
+        background: 'rgba(200,200,200,0.5)',
+        transition: 'background 250ms',
+        '&:hover': {
+            background: 'rgba(250, 250, 250, 0.7)'
+        }
+    }
 }))

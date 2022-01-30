@@ -11,6 +11,7 @@ import {
 } from "@material-ui/lab"
 import StarIcon from '@material-ui/icons/Star'
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart'
+import { useNavigate } from 'react-router';
 
 const useStyles = makeStyles(() => ({
     paper: {
@@ -87,6 +88,7 @@ const useStyles = makeStyles(() => ({
 
 const ProductInfo = () => {
     const classes = useStyles()
+    const navigate = useNavigate()
 
     return (
         <Box>
@@ -124,7 +126,7 @@ const ProductInfo = () => {
                             <AddShoppingCartIcon/>
                         </Button>
 
-                        <Button variant="contained" color="primary">
+                        <Button variant="contained" color="primary" onClick={() => navigate('/cart/1')}>
                             <Typography className={classes.buttonText}>Đặt hàng nhanh</Typography>
                         </Button>
                     </Box>
