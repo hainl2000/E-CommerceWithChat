@@ -3,6 +3,7 @@ import { constance as ACTIONS } from "../constance"
 const initialState = {
     products: [],
     productsByCategory: [],
+    searchedProducts: [],
     cart: [],
     selected_id: null
 }
@@ -26,6 +27,14 @@ export const productReducer = (state = initialState, action) => {
             return {
                 ...state,
                 productsByCategory: action.products
+            }
+
+        case ACTIONS.SEARCH_PRODUCTS:
+            const products = state.products.filter(product => product.nameProduct.toLowerCase().includes(action.searchValue.toLowerCase()))
+            
+            return {
+                ...state,
+                searchedProducts: products
             }
 
         default: return state

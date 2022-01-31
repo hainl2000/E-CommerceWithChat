@@ -10,6 +10,7 @@ export const useStyles = makeStyles(() => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        position: 'relative'
     },
     modalTitle: {
         paddingTop: 60,
@@ -33,7 +34,7 @@ export const useStyles = makeStyles(() => ({
             background: '#5619a6'
         }
     },
-    createAccountLink: {
+    switchModalLink: {
         fontWeight: 'bold',
         fontSize: 15,
         marginTop: 60,
@@ -46,4 +47,10 @@ export const useStyles = makeStyles(() => ({
     eyeIcon: {
         cursor: 'pointer'
     },
+    errorMessage: {
+        color: '#ff0000',
+        fontSize: 'small',
+        position: 'absolute',
+        bottom: 80
+    }
 }))

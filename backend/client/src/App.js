@@ -21,6 +21,7 @@ function App() {
                     <Route path='/' exact element={<User type='home'/>}/>
                     <Route path='/cart/:id' exact element={<User type='cart'/>}/>
                     <Route path='/category/:id' exact element={<User type='category'/>}/>
+                    <Route path='/category' exact element={<User type='category'/>}/>
                     <Route path='/product/:id' exact element={<User type='product'/>}/>
                     <Route path='/admin' exact element={<Admin/>}/>
                 </Routes>

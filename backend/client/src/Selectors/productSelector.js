@@ -14,6 +14,7 @@ const getActiveProductsByCategories = state => {
 }
 const getProductById = state => state.productReducer.products.find(product => product._id === state.productReducer.selected_id) || {}
 const getActiveProductsByCategory = state => state.productReducer.productsByCategory
+const getSearchProducts = state => state.productReducer.searchedProducts
 
 export const activeProductsSelector = createSelector(
     getActiveProducts,
@@ -33,4 +34,9 @@ export const activeProductsByCategorySelector = createSelector(
 export const selectedProductSelector = createSelector(
     getProductById,
     product => product
+)
+
+export const searchProductsSelector = createSelector(
+    getSearchProducts,
+    products => products
 )
