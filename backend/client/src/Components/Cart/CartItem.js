@@ -9,18 +9,33 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { useStyles } from './style';
+import { useDispatch } from 'react-redux';
+import { addIntoCart, discardFromCart, discardFromCartAll } from '../../Actions/CartActions';
 
-const CartItem = ({item, index, updateHandle, removeHandle}) => {
+const CartItem = ({item, index}) => {
     const classes = useStyles()
+    const dispatch = useDispatch()
+
+    const updateHandle = () => {
+        dispatch(addIntoCart(item))
+    }
+
+    const discardHandle = () => {
+        dispatch(discardFromCart(item))
+    }
+
+    const discardAllHandle = () => {
+        dispatch(discardFromCartAll(item))
+    }
 
     return (
         <TableRow>
             <TableCell>
                 <Box className={classes.productInfo}>
-                    <img src={item.image} width={100} height={100} alt='phone' />
+                    <img src={item.imageURL} width={100} height={100} alt='phone' />
                     <Box>
-                        <Typography>
-                            {item.name}
+                        <Typography variant='h6'>
+                            {item.nameProduct}
                         </Typography>
                         <Typography>
                             {item.description}
@@ -30,21 +45,21 @@ const CartItem = ({item, index, updateHandle, removeHandle}) => {
             </TableCell>
             <TableCell>
                 <Box className={classes.quantityCell}>
-                    <AddBoxIcon onClick={() => updateHandle(index, 1)}/>
+                    <AddBoxIcon onClick={updateHandle}/>
                     <Typography>
                         {item.quantity}
                     </Typography>
-                    <IndeterminateCheckBoxIcon onClick={() => updateHandle(index, -1)}/>
+                    <IndeterminateCheckBoxIcon onClick={discardHandle}/>
                 </Box>
             </TableCell>
             <TableCell>
-                {Intl.NumberFormat().format(item.price)} VND
+                {Intl.NumberFormat().format(item.price)} $
             </TableCell>
             <TableCell>
-                {Intl.NumberFormat().format(item.quantity * item.price)} VND
+                {Intl.NumberFormat().format(item.quantity * item.price)} $
             </TableCell>
             <TableCell>
-                <IconButton onClick={() => removeHandle(index)}>
+                <IconButton onClick={discardAllHandle}>
                     <DeleteForeverIcon/>
                 </IconButton>
             </TableCell>

@@ -1,35 +1,37 @@
 import {
     Box,
     Divider,
-    Typography,
-    makeStyles
+    Typography
 } from "@material-ui/core"
+import { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { fetchProductsByCategory } from "../../Actions/ProductActions"
+import { selectCategory } from "../../Actions/CategoryAction"
 import ProductItem from "./ProductItem"
-
-const useStyles = makeStyles(() => ({
-    container: {
-        paddingLeft: 25,
-        paddingRight: 25,
-        paddingTop: 20,
-        '& > h5': {
-            marginBottom: 10
-        }
-    },
-    productList: {
-        display: 'flex',
-        flexWrap: 'wrap'
-    }
-}))
+import { useStyles } from './style'
+import { useParams } from "react-router"
+import { activeProductsByCategorySelector } from "../../Selectors/productSelector"
+import { selectedCategorySelector } from "../../Selectors/categorySelector"
 
 const ProductList = () => {
     const classes = useStyles()
+    const dispatch = useDispatch()
+    const products = useSelector(activeProductsByCategorySelector)
+    const category = useSelector(selectedCategorySelector)
+
+    const { id } = useParams()
+
+    useEffect(() => {
+        dispatch(selectCategory(id))
+        dispatch(fetchProductsByCategory(id))
+    }, [])
 
     return (
         <Box className={classes.container}>
-            <Typography variant="h5">Category</Typography>
+            <Typography variant="h6">{category?.nameCategory}</Typography>
             <Divider/>
             <Box className={classes.productList}>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(item => <ProductItem key={item}/>)}
+                {products.map(product => <ProductItem key={product._id} product={product}/>)}
             </Box>
         </Box>
     )

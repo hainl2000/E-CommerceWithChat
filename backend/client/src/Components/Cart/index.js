@@ -15,34 +15,21 @@ import {
 } from '@material-ui/core'
 import { columns } from './columns';
 import { useState } from 'react';
-import { product_data, shipping } from './data';
+import { shipping } from './data';
 import { useStyles } from './style';
 import CartItem from './CartItem';
+import { useSelector } from 'react-redux';
+import { productsCartSelector } from '../../Selectors/cartSelector';
 
 const Cart = () => {
     const classes = useStyles()
     const [shippingValue, setShippingValue] = useState(1)
-    const [data, setData] = useState(product_data)
+    const products = useSelector(productsCartSelector)
 
     const getTotal = () => {
-        return data.reduce((current, next) => {
+        return products.reduce((current, next) => {
             return current + next.price * next.quantity
         }, 0)
-    }
-
-    const updateHandle = (index, change) => {
-        if (data[index].quantity + change !== 0)
-        {
-            const newData = [...data]
-            newData[index].quantity += change
-            setData([...newData])
-        }
-    }
-
-    const removeHandle = (index) => {
-        const newData = [...data]
-        newData.splice(index, 1)
-        setData([...newData])
     }
 
     return (
@@ -53,7 +40,7 @@ const Cart = () => {
                         Đơn hàng
                     </Typography>
                     <Typography variant='h5'>
-                        {data.length} items
+                        {products.length} sản phẩm
                     </Typography>
                 </Box>
                 <Divider/>
@@ -72,9 +59,9 @@ const Cart = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {data.map((item, index) => {
+                                {products.map((item, index) => {
                                     return (
-                                        <CartItem key={index} item={item} index={index} updateHandle={updateHandle} removeHandle={removeHandle}/>
+                                        <CartItem key={index} item={item} index={index}/>
                                     )
                                 })}
                             </TableBody>
@@ -91,7 +78,7 @@ const Cart = () => {
                 <Divider/>
                 <Box className={classes.totalPaymentInfo}>
                     <Typography>
-                        Số sản phẩm: {data.length}
+                        Số sản phẩm: {products.length}
                     </Typography>
                     <Typography>
                         Tổng tiền: {Intl.NumberFormat().format(getTotal())} VND
@@ -117,7 +104,7 @@ const Cart = () => {
                 <Divider/>
                 <Box className={classes.total}>
                     <Typography>Tổng tiền:</Typography>
-                    <Typography>{Intl.NumberFormat().format(getTotal() + shipping[shippingValue -1].price)} VND</Typography>
+                    <Typography>{products.length !== 0 ? Intl.NumberFormat().format(getTotal() + shipping[shippingValue -1].price) : 0} VND</Typography>
                 </Box>
                 <Box className={classes.payButton}>
                     <Button variant='contained' color='secondary'>Thanh toán</Button>
