@@ -7,10 +7,19 @@ import ProductItem from "../Product/ProductItem"
 import { useNavigate } from 'react-router';
 import { useStyles } from "./style";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { updateProductsTitle, updateViewType } from "../../Actions/UiActions";
 
 const Category = ({ categoryName = 'Category', products = [], id }) => {
     const classes = useStyles()
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const moreHandle = () => {
+        dispatch(updateProductsTitle(categoryName))
+        dispatch(updateViewType('products'))
+        navigate(`/category/${id}`)
+    }
 
     return (
         <>
@@ -19,7 +28,7 @@ const Category = ({ categoryName = 'Category', products = [], id }) => {
                     <Typography variant="h6">
                         {categoryName} ({products.length})
                     </Typography>
-                    <Typography onClick={() => navigate(`/category/${id}`)}>
+                    <Typography onClick={moreHandle}>
                         Xem thêm
                     </Typography>
                 </Box>

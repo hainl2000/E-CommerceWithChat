@@ -5,33 +5,50 @@ import {
 } from "@material-ui/core"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { fetchProductsByCategory } from "../../Actions/ProductActions"
+import { fetchProductsByCategory, searchProduct } from "../../Actions/ProductActions"
 import { selectCategory } from "../../Actions/CategoryAction"
 import ProductItem from "./ProductItem"
 import { useStyles } from './style'
 import { useParams } from "react-router"
-import { activeProductsByCategorySelector } from "../../Selectors/productSelector"
+import { activeProductsByCategorySelector, searchProductsSelector } from "../../Selectors/productSelector"
 import { selectedCategorySelector } from "../../Selectors/categorySelector"
+import { productTitleSelector, viewTypeSelector } from "../../Selectors/uiSelector"
 
 const ProductList = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const products = useSelector(activeProductsByCategorySelector)
+    const searchProducts = useSelector(searchProductsSelector)
     const category = useSelector(selectedCategorySelector)
+    const productTitle = useSelector(productTitleSelector)
+    const viewType = useSelector(viewTypeSelector)
 
     const { id } = useParams()
 
     useEffect(() => {
-        dispatch(selectCategory(id))
-        dispatch(fetchProductsByCategory(id))
+        if (id)
+        {
+            dispatch(selectCategory(id))
+            dispatch(fetchProductsByCategory(id))
+        }
     }, [])
+
+    const getTitle = () => {
+        if (viewType === 'products')
+            return products
+        
+        if (viewType === 'search')
+            return searchProducts
+
+        return products
+    }
 
     return (
         <Box className={classes.container}>
-            <Typography variant="h6">{category?.nameCategory}</Typography>
+            <Typography variant="h6">{productTitle} ({getTitle().length})</Typography>
             <Divider/>
             <Box className={classes.productList}>
-                {products.map(product => <ProductItem key={product._id} product={product}/>)}
+                {getTitle().map(product => <ProductItem key={product._id} product={product}/>)}
             </Box>
         </Box>
     )

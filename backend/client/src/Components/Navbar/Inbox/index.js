@@ -9,12 +9,15 @@ import {
 import { useState, useRef, useEffect } from 'react'
 import SendIcon from '@material-ui/icons/Send';
 import { useStyles } from '../style';
+import { useSelector } from "react-redux";
+import { messagesSelector } from '../../../Selectors/userSelector';
 
 const Inbox = () => {
     const classes = useStyles()
     const endText = useRef(null)
     const [endTextEl, setEndTextEl] = useState(null)
     const [text, setText] = useState('')
+    const messages = useSelector(messagesSelector)
     const [textList, setTextList] = useState([
         {
             text: 'abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc '
@@ -50,6 +53,7 @@ const Inbox = () => {
             text: 'abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc '
         },
     ])
+    
 
     useEffect(() => {
         endText.current?.scrollIntoView({ behavior: 'smooth' })
@@ -64,7 +68,7 @@ const Inbox = () => {
         <Box className={classes.drawer}>
             <Typography variant='h5'>Trợ giúp</Typography>
             <Paper elevation={5} className={classes.textContainer}>
-                {textList.map((textItem, index) => {
+                {messages.map((textItem, index) => {
                     return (
                         <Box key={index} className={index % 2 === 0 ? classes.textBubble_admin : classes.textBubble_customer}>
                             {textItem.text}

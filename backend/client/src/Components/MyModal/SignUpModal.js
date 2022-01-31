@@ -13,19 +13,39 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import { useState } from 'react';
 import { useStyles } from './style';
+import { useDispatch } from 'react-redux';
+import { updateLoginError, updateNavbarModal } from '../../Actions/UiActions';
 
 const SignUpModal = ({open, closeHandle}) => {
     const classes = useStyles()
     const [visible, setVisible] = useState(false)
+    const dispatch = useDispatch()
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
 
     const passwordVisibleHandle = () => {
         setVisible(visible => !visible)
+    }
+
+    const switchModalHandle = () => {
+        dispatch(updateNavbarModal('login'))
+        dispatch(updateLoginError(false))
+    }
+
+    const closeModalHandle = () => {
+        setEmail('')
+        setPassword('')
+        closeHandle()
+    }
+
+    const submitHandle = () => {
+        closeHandle()
     }
     
     return (
         <Modal
             open={open}
-            onClose={closeHandle}
+            onClose={closeModalHandle}
         >
             <Container className={classes.modalContainer}>
                 <Typography className={classes.modalTitle} variant='h4'>
@@ -33,6 +53,9 @@ const SignUpModal = ({open, closeHandle}) => {
                 </Typography>
                 <FormControl className={classes.form}>
                     <TextField
+                        placeholder='email'
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position='start'>
@@ -43,6 +66,13 @@ const SignUpModal = ({open, closeHandle}) => {
                     />
                     <TextField
                         type={visible ? 'text' : 'password'}
+                        placeholder='password'
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                        onKeyUp={e => {
+                            if (e.key === 'Enter')
+                            submitHandle()
+                        }}
                         InputProps={
                             {
                                 startAdornment: (
@@ -61,7 +91,10 @@ const SignUpModal = ({open, closeHandle}) => {
                         }
                     />
                 </FormControl>
-                <Button className={classes.loginButton} variant='contained'>Đăng ký</Button>
+                <Button className={classes.loginButton} variant='contained' onClick={submitHandle}>Đăng ký</Button>
+                <Typography className={classes.switchModalLink} onClick={switchModalHandle}>
+                    Quay lại
+                </Typography>
             </Container>
         </Modal>
     )

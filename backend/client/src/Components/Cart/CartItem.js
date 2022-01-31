@@ -3,7 +3,8 @@ import {
     TableCell,
     Box,
     IconButton,
-    Typography
+    Typography,
+    Tooltip
 } from '@material-ui/core';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
@@ -60,7 +61,9 @@ const CartItem = ({item, index}) => {
             </TableCell>
             <TableCell>
                 <IconButton onClick={discardAllHandle}>
-                    <DeleteForeverIcon/>
+                    <Tooltip title="Discard item">
+                        <DeleteForeverIcon/>
+                    </Tooltip>
                 </IconButton>
             </TableCell>
         </TableRow>

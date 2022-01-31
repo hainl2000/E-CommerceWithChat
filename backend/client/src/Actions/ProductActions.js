@@ -34,3 +34,10 @@ export const selectProduct = (id) => {
         selected_id: id
     }
 }
+
+export const searchProduct = (searchValue) => {
+    return {
+        type: ACTIONS.SEARCH_PRODUCTS,
+        searchValue
+    }
+}

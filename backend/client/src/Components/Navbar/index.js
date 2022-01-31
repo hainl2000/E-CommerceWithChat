@@ -29,8 +29,12 @@ import { LoginModal, SignUpModal } from '../MyModal';
 import Inbox from './Inbox';
 import { useStyles } from './style';
 import { useNavigate } from 'react-router';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { productsCartSelector } from '../../Selectors/cartSelector';
+import { searchProduct } from '../../Actions/ProductActions';
+import { updateLoginError, updateProductsTitle, updateViewType } from '../../Actions/UiActions';
+import { loginStatusSelector } from '../../Selectors/userSelector';
+import { modalNavberSelector } from '../../Selectors/uiSelector'
 
 const StyledMenu = withStyles({
     paper: {
@@ -62,21 +66,26 @@ const NavBar = () => {
     const endText = useRef(null)
     const top = useRef(null)
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const products = useSelector(productsCartSelector)
+    const modalType = useSelector(modalNavberSelector)
+    const login = useSelector(loginStatusSelector)
 
     //test
-    const [count, setCount] = useState(0)
-    const login = true
     const [openModal, setOpenModal] = useState(false)
 
     const closeModalHandle = () => {
         setOpenModal(false)
+        dispatch(updateLoginError(false))
     }
     //
 
     const searchClickHandle = () => {
+        dispatch(searchProduct(searchValue))
+        dispatch(updateProductsTitle(`Result for '${searchValue}'`))
+        dispatch(updateViewType('search'))
         setSearchValue('')
-        navigate('/category/1')
+        navigate('/category')
     }
 
     const handleClose = () => {
@@ -85,6 +94,13 @@ const NavBar = () => {
 
     const avatarClickHandle = e => {
         setAnchorEl(e.currentTarget)
+    }
+
+    const getModal = () => {
+        if (modalType === 'login')
+            return <LoginModal open={openModal} closeHandle={closeModalHandle}/>
+        else
+            return <SignUpModal open={openModal} closeHandle={closeModalHandle}/>
     }
 
     useEffect(() => {
@@ -109,6 +125,10 @@ const NavBar = () => {
                                 placeholder='Search...'
                                 value={searchValue}
                                 onChange={e => setSearchValue(e.target.value)}
+                                onKeyUp={e => {
+                                    if (e.key === 'Enter')
+                                        searchClickHandle()
+                                }}
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position='end'>
@@ -151,8 +171,7 @@ const NavBar = () => {
             <Drawer anchor='right' open={openDrawer} onClose={() => setOpenDrawer(false)}>
                 <Inbox/>
             </Drawer>
-            <LoginModal open={openModal} closeHandle={closeModalHandle}/>
-            {/* <SignUpModal open={openModal} closeHandle={closeModalHandle}/> */}
+            {getModal()}
             <IconButton className={classes.scrollToTopButton} onClick={() => top.current.scrollIntoView()}>
                 <ArrowUpwardIcon fontSize='large'/>
             </IconButton>

@@ -18,6 +18,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { selectedProductSelector } from "../../Selectors/productSelector";
 import { selectProduct } from "../../Actions/ProductActions";
+import { addIntoCart } from "../../Actions/CartActions";
 
 const ProductInfo = () => {
     const dispatch = useDispatch()
@@ -30,6 +31,15 @@ const ProductInfo = () => {
     useEffect(() => {
         dispatch(selectProduct(id))
     }, [])
+
+    const addIntoCartHandle = () => {
+        dispatch(addIntoCart(product))
+    }
+
+    const addIntoCartRushHandle = () => {
+        addIntoCartHandle()
+        navigate('/cart/1')
+    }
 
     return (
         <Box>
@@ -62,12 +72,12 @@ const ProductInfo = () => {
                     </Box>
                     <Box className={classes.buttonContainer}>
                         <Divider/>
-                        <Button variant="contained" color="secondary">
+                        <Button variant="contained" color="secondary" onClick={addIntoCartHandle}>
                             <Typography className={classes.buttonText}>Thêm vào giỏ hàng</Typography>
                             <AddShoppingCartIcon/>
                         </Button>
 
-                        <Button variant="contained" color="primary" onClick={() => navigate('/cart/1')}>
+                        <Button variant="contained" color="primary" onClick={addIntoCartRushHandle}>
                             <Typography className={classes.buttonText}>Đặt hàng nhanh</Typography>
                         </Button>
                     </Box>
