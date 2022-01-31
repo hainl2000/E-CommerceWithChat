@@ -9,60 +9,38 @@ import {
 import { Rating } from '@material-ui/lab';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { useNavigate } from 'react-router';
+import { useStyles } from "./style";
+import { useDispatch } from 'react-redux';
+import { addIntoCart } from "../../Actions/CartActions";
 
-const useStyles = makeStyles(() => ({
-    cardItem: {
-        marginRight: 45,
-        cursor: 'pointer',
-        width: 200,
-        flex: 'none',
-        marginBottom: 10,
-        marginTop: 10,
-    },
-    media: {
-        height: 200,
-        width: 200
-    },
-    content: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        paddingBottom: 5,
-        justifyContent: 'space-between'
-    },
-    actions: {
-        display: 'flex',
-        alignItems: 'center',
-        paddingBottom: 15
-    },
-    rating: {
-        paddingLeft: 5,
-        marginRight: 20
-    }
-}))
-
-const ProductItem = () => {
+const ProductItem = ({product = {}}) => {
     const classes = useStyles()
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const addIntoCartHandle = () => {
+        dispatch(addIntoCart(product))
+    }
 
     return (
         <Card elevation={3} className={classes.cardItem}>
             <CardMedia
                 className={classes.media}
-                image="https://cdn.tgdd.vn/Products/Images/42/22230/iphone_3GS_b.jpg"
+                image={product.imageURL}
                 title="product"
-                onClick={() => navigate('/product/1')}
+                onClick={() => navigate(`/product/${product._id}`)}
             />
-            <CardContent className={classes.content} onClick={() => navigate('/product/1')}>
+            <CardContent className={classes.content} onClick={() => navigate(`/product/${product._id}`)}>
                 <Typography variant='h6'>
-                    Phone
+                    {product.nameProduct}
                 </Typography>
-                <Typography variant='h6'>
-                    60$
+                <Typography className={classes.itemPrice} variant='h6'>
+                    {Intl.NumberFormat().format(product.price)} $
                 </Typography>
             </CardContent>
             <CardActions className={classes.actions} disableSpacing>
-                <Rating className={classes.rating} value={3} readOnly/>
-                <AddShoppingCartIcon onClick={() => navigate(('/cart/1'))}/>
+                <Rating className={classes.productRating} value={3} readOnly/>
+                <AddShoppingCartIcon onClick={addIntoCartHandle}/>
             </CardActions>
         </Card>
     )

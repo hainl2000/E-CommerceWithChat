@@ -29,6 +29,8 @@ import { LoginModal, SignUpModal } from '../MyModal';
 import Inbox from './Inbox';
 import { useStyles } from './style';
 import { useNavigate } from 'react-router';
+import { useSelector } from 'react-redux';
+import { productsCartSelector } from '../../Selectors/cartSelector';
 
 const StyledMenu = withStyles({
     paper: {
@@ -60,6 +62,7 @@ const NavBar = () => {
     const endText = useRef(null)
     const top = useRef(null)
     const navigate = useNavigate()
+    const products = useSelector(productsCartSelector)
 
     //test
     const [count, setCount] = useState(0)
@@ -130,7 +133,7 @@ const NavBar = () => {
                             </Badge>
                         </IconButton>}
                         <IconButton onClick={() => navigate('/cart/1')}>
-                            <Badge badgeContent={count} color='secondary'>
+                            <Badge badgeContent={products.length} color='secondary'>
                                 <ShoppingCartIcon className={login ? classes.cartIcon : classes.cartIcon_extend}/>
                             </Badge>
                         </IconButton>

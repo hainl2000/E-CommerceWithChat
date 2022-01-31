@@ -1,8 +1,19 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Admin, User } from './Role'
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux'
+import { fetchCategory } from './Actions/CategoryAction'
+import { fetchProducts } from './Actions/ProductActions'
 
 function App() {
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(fetchCategory())
+        dispatch(fetchProducts())
+    }, [])
+
     return (
         <div className="App">
             <Router>
