@@ -5,6 +5,7 @@ const initialState = {
     viewType: 'products',
     modal: 'login',
     loginError: false,
+    username: ''
 }
 
 export const uiReducer = (state = initialState, action) => {
@@ -32,6 +33,18 @@ export const uiReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loginError: action.error
+            }
+
+        case ACTIONS.SET_COOKIE:
+            return {
+                ...state,
+                username: action.username
+            }
+        
+        case ACTIONS.LOGOUT:
+            return {
+                ...state,
+                username: ''
             }
 
         default: return state

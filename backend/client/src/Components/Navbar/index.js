@@ -34,7 +34,8 @@ import { productsCartSelector } from '../../Selectors/cartSelector';
 import { searchProduct } from '../../Actions/ProductActions';
 import { updateLoginError, updateProductsTitle, updateViewType } from '../../Actions/UiActions';
 import { loginStatusSelector } from '../../Selectors/userSelector';
-import { modalNavberSelector } from '../../Selectors/uiSelector'
+import { modalNavberSelector, usernameSelector } from '../../Selectors/uiSelector'
+import { signout } from '../../Actions/UserActions';
 
 const StyledMenu = withStyles({
     paper: {
@@ -70,6 +71,7 @@ const NavBar = () => {
     const products = useSelector(productsCartSelector)
     const modalType = useSelector(modalNavberSelector)
     const login = useSelector(loginStatusSelector)
+    const username = useSelector(usernameSelector)
 
     //test
     const [openModal, setOpenModal] = useState(false)
@@ -89,6 +91,7 @@ const NavBar = () => {
     }
 
     const handleClose = () => {
+        dispatch(signout())
         setAnchorEl(null)
     }
 
@@ -106,6 +109,11 @@ const NavBar = () => {
     useEffect(() => {
         endText.current?.scrollIntoView()
     }, [endTextEl])
+
+    useEffect(() => {
+        if (login)
+            setOpenModal(false)
+    }, [login])
 
     return (
         <div ref={top} className={classes.root}>
@@ -157,11 +165,11 @@ const NavBar = () => {
                                 <ShoppingCartIcon className={login ? classes.cartIcon : classes.cartIcon_extend}/>
                             </Badge>
                         </IconButton>
-                        {login ? <Avatar className={classes.avatar} onClick={e => avatarClickHandle(e)}>N</Avatar> : <Button className={classes.button} onClick={() => setOpenModal(true)} color='inherit'>Đăng nhập</Button>}
+                        {login ? <Avatar className={classes.avatar} onClick={e => avatarClickHandle(e)}>{username.toUpperCase()[0]}</Avatar> : <Button className={classes.button} onClick={() => setOpenModal(true)} color='inherit'>Đăng nhập</Button>}
                         <StyledMenu
                             anchorEl={anchorEl}
                             open={Boolean(anchorEl)}
-                            onClose={handleClose}
+                            onClose={() => setAnchorEl(null)}
                         >
                             <MenuItem className={classes.menuItem} onClick={handleClose}>Đăng xuất</MenuItem>
                         </StyledMenu>
