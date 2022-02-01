@@ -11,10 +11,15 @@ import PersonIcon from '@material-ui/icons/Person';
 import LockIcon from '@material-ui/icons/Lock';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import MailIcon from '@material-ui/icons/Mail';
 import { useState } from 'react';
 import { useStyles } from './style';
 import { useDispatch } from 'react-redux';
 import { updateLoginError, updateNavbarModal } from '../../Actions/UiActions';
+import { useSelector } from 'react-redux';
+import { loginErrorSelector } from '../../Selectors/uiSelector';
+import { loginStatusSelector } from '../../Selectors/userSelector';
+import { signup } from '../../Actions/UserActions';
 
 const SignUpModal = ({open, closeHandle}) => {
     const classes = useStyles()
@@ -22,6 +27,10 @@ const SignUpModal = ({open, closeHandle}) => {
     const dispatch = useDispatch()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [username, setUsername] = useState('')
+
+    const loginStatus = useSelector(loginStatusSelector)
+    const errorLogin = useSelector(loginErrorSelector)
 
     const passwordVisibleHandle = () => {
         setVisible(visible => !visible)
@@ -38,8 +47,11 @@ const SignUpModal = ({open, closeHandle}) => {
         closeHandle()
     }
 
-    const submitHandle = () => {
-        closeHandle()
+    const signupHandle = () => {
+        dispatch(signup(username, email, password))
+        setEmail('')
+        setPassword('')
+        // closeHandle()
     }
     
     return (
@@ -53,13 +65,25 @@ const SignUpModal = ({open, closeHandle}) => {
                 </Typography>
                 <FormControl className={classes.form}>
                     <TextField
+                        placeholder='username'
+                        value={username}
+                        onChange={e => setUsername(e.target.value)}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position='start'>
+                                    <PersonIcon/>
+                                </InputAdornment>
+                            )
+                        }}
+                    />
+                    <TextField
                         placeholder='email'
                         value={email}
                         onChange={e => setEmail(e.target.value)}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position='start'>
-                                    <PersonIcon />
+                                    <MailIcon/>
                                 </InputAdornment>
                             )
                         }}
@@ -71,7 +95,7 @@ const SignUpModal = ({open, closeHandle}) => {
                         onChange={e => setPassword(e.target.value)}
                         onKeyUp={e => {
                             if (e.key === 'Enter')
-                            submitHandle()
+                            signupHandle()
                         }}
                         InputProps={
                             {
@@ -91,7 +115,10 @@ const SignUpModal = ({open, closeHandle}) => {
                         }
                     />
                 </FormControl>
-                <Button className={classes.loginButton} variant='contained' onClick={submitHandle}>Đăng ký</Button>
+                <Button className={classes.loginButton} variant='contained' onClick={signupHandle}>Đăng ký</Button>
+                {!loginStatus && errorLogin && <Typography className={classes.errorMessage}>
+                    Đăng ký không thành công
+                </Typography>}
                 <Typography className={classes.switchModalLink} onClick={switchModalHandle}>
                     Quay lại
                 </Typography>

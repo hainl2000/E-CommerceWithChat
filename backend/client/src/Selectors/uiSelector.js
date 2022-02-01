@@ -4,6 +4,7 @@ const getProductTitle = state => state.uiReducer.productsTitle
 const getViewType = state => state.uiReducer.viewType
 const getModalType = state => state.uiReducer.modal
 const getLoginError = state => state.uiReducer.loginError
+const getUsername = state => state.uiReducer.username
 
 export const productTitleSelector = createSelector(
     getProductTitle,
@@ -23,4 +24,9 @@ export const modalNavberSelector = createSelector(
 export const loginErrorSelector = createSelector(
     getLoginError,
     error => error
+)
+
+export const usernameSelector = createSelector(
+    getUsername,
+    username => username
 )

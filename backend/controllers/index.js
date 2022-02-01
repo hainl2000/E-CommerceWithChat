@@ -178,7 +178,7 @@ const Signup =async (req,res) =>{
             });
             let message = new MessageModel({
                 content : "Welcome to my web",
-                from : admin._id,
+                from : admin?._id,
                 sendAt : now()
             })
             await message.save((function (err) {

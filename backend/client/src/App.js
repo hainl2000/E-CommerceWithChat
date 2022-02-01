@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux'
 import { fetchCategory } from './Actions/CategoryAction'
 import { fetchProducts } from './Actions/ProductActions'
+import { getLoginStatus } from './Actions/UserActions';
 
 function App() {
     const dispatch = useDispatch()
@@ -12,6 +13,7 @@ function App() {
     useEffect(() => {
         dispatch(fetchCategory())
         dispatch(fetchProducts())
+        dispatch(getLoginStatus())
     }, [])
 
     return (

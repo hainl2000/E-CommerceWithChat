@@ -22,5 +22,7 @@ export const constance = {
 
     LOGIN: 'LOGIN',
     SIGN_UP: 'SIGN_UP',
-    LOGIN_RESULT: 'LOGIN_RESULT'
+    LOGOUT: 'LOGOUT',
+    LOGIN_RESULT: 'LOGIN_RESULT',
+    SET_COOKIE: 'SET_COOKIE',
 }

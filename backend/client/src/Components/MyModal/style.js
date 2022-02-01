@@ -36,8 +36,9 @@ export const useStyles = makeStyles(() => ({
     },
     switchModalLink: {
         fontWeight: 'bold',
+        position: 'absolute',
         fontSize: 15,
-        marginTop: 60,
+        bottom: 10,
         cursor: 'pointer',
         transition: 'color 250ms',
         '&:hover': {

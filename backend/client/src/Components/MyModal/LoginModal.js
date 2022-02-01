@@ -7,11 +7,11 @@ import {
     Button,
     InputAdornment
 } from '@material-ui/core'
-import PersonIcon from '@material-ui/icons/Person';
 import LockIcon from '@material-ui/icons/Lock';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
-import { useState } from 'react';
+import MailIcon from '@material-ui/icons/Mail';
+import { useEffect, useState } from 'react';
 import { useStyles } from './style';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateLoginError, updateNavbarModal } from '../../Actions/UiActions';
@@ -39,7 +39,7 @@ const LoginModal = ({open, closeHandle}) => {
     }
 
     const loginHandle = () => {
-        dispatch(login())
+        dispatch(login(email, password))
     }
 
     const closeModalHandle = () => {
@@ -65,7 +65,7 @@ const LoginModal = ({open, closeHandle}) => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position='start'>
-                                    <PersonIcon />
+                                    <MailIcon/>
                                 </InputAdornment>
                             )
                         }}

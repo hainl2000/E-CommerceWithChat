@@ -13,6 +13,18 @@ export const userReducer = (state = initialState, action) => {
                 ...state,
                 login: true
             }
+
+        case ACTIONS.SET_COOKIE:
+            return {
+                ...state,
+                login: true
+            }
+
+        case ACTIONS.LOGOUT:
+            return {
+                ...state,
+                login: false
+            }
             
         default: return state
     }
