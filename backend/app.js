@@ -110,12 +110,15 @@ io.on("connection", function(socket){
         console.log(userId.userId);
         console.log('data');
         console.log(data);
-      const { newMsg, error } = await msgController.sendMsg(data.role === 0 ? data.roomId : userId.userId, userId.userId, data.msg);
+    msgController.sendMsg(data.role === 0 ? data.roomId : userId.userId, userId.userId, data.msg).then(result => {
+        console.log('result', result)
+        socket.emit('msgSent', { result, key: 'aaa' });
+    });
     //   console.log('admin', admin, data.role)
-      if(data.role === 1)
-        var receiver = roomAction.findConnectedUser(admin);
-      else
-        var receiver = roomAction.findConnectedUser(data.roomId);
+    //   if(data.role === 1)
+        // var receiver = roomAction.findConnectedUser(admin);
+    //   else
+        // var receiver = roomAction.findConnectedUser(data.roomId);
         
         //   if(receiverSocket)
         //   {
@@ -128,8 +131,9 @@ io.on("connection", function(socket){
         // console.log('msg');
         // console.log(newMsg);
         // console.log('receiver ' . receiver);
-        io.to(receiver.socketId).emit("newMsgReceived",{newMsg});
-      !error && socket.emit('msgSent', { newMsg });
+        // console.log(newMsg)
+        // io.to(receiver.socketId).emit("newMsgReceived",{newMsg, key: 'aaa'});
+    //   !error && socket.emit('msgSent', { newMsg, key: 'aaa' });
     })
 });
 
