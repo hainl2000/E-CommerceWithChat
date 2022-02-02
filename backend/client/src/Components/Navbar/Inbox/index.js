@@ -11,6 +11,7 @@ import SendIcon from '@material-ui/icons/Send';
 import { useStyles } from '../style';
 import { useSelector } from "react-redux";
 import { messagesSelector } from '../../../Selectors/userSelector';
+import { sentMessage } from '../../../Actions/userActions';
 
 const Inbox = () => {
     const classes = useStyles()
@@ -18,49 +19,13 @@ const Inbox = () => {
     const [endTextEl, setEndTextEl] = useState(null)
     const [text, setText] = useState('')
     const messages = useSelector(messagesSelector)
-    const [textList, setTextList] = useState([
-        {
-            text: 'abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc '
-        },
-        {
-            text: 'abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc '
-        },
-        {
-            text: 'abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc '
-        },
-        {
-            text: 'abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc '
-        },
-        {
-            text: 'abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc '
-        },
-        {
-            text: 'abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc '
-        },
-        {
-            text: 'abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc '
-        },
-        {
-            text: 'abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc '
-        },
-        {
-            text: 'abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc '
-        },
-        {
-            text: 'abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc '
-        },
-        {
-            text: 'abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc '
-        },
-    ])
     
-
     useEffect(() => {
         endText.current?.scrollIntoView({ behavior: 'smooth' })
-    }, [endTextEl, textList])
+    }, [endTextEl])
 
     const submitHandle = () => {
-        setTextList(textList => [...textList, { text: text }])
+        sentMessage(text)
         setText('')
     }
 

@@ -5,8 +5,8 @@ import {
 } from "@material-ui/core"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { fetchProductsByCategory, searchProduct } from "../../Actions/ProductActions"
-import { selectCategory } from "../../Actions/CategoryAction"
+import { fetchProductsByCategory, searchProduct } from "../../Actions/productActions"
+import { selectCategory } from "../../Actions/categoryActions"
 import ProductItem from "./ProductItem"
 import { useStyles } from './style'
 import { useParams } from "react-router"

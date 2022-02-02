@@ -1,5 +1,7 @@
 import {
+    Avatar,
     Box,
+    Button,
     Tab,
     Tabs,
 } from "@material-ui/core"
@@ -26,16 +28,22 @@ const Admin = () => {
 
     return (
         <Box className={classes.root}>
-            <Tabs
-                className={classes.tabs}
-                orientation="horizontal"
-                value={value}
-                onChange={changeHandle}
-            >
-                <Tab label='Product'/>
-                <Tab label='Category'/>
-                <Tab label='Chăm sóc khách hàng'/>
-            </Tabs>
+            <Box className={classes.admin_navbar}>
+                <Tabs
+                    className={classes.tabs}
+                    orientation="horizontal"
+                    value={value}
+                    onChange={changeHandle}
+                >
+                    <Tab label='Product'/>
+                    <Tab label='Category'/>
+                    <Tab label='Chăm sóc khách hàng'/>
+                </Tabs>
+                <Box className={classes.admin_action}>
+                    <Avatar className={classes.admin_avatar}>A</Avatar>
+                    <Button color='secondary' variant='contained' size="small">Đăng xuất</Button>
+                </Box>
+            </Box>
             <Box className={classes.panelContainer}>
                 <Inbox/>
                 {/* <ProductList/> */}

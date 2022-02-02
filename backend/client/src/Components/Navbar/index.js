@@ -31,11 +31,11 @@ import { useStyles } from './style';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { productsCartSelector } from '../../Selectors/cartSelector';
-import { searchProduct } from '../../Actions/ProductActions';
-import { updateLoginError, updateProductsTitle, updateViewType } from '../../Actions/UiActions';
+import { searchProduct } from '../../Actions/productActions';
+import { updateLoginError, updateProductsTitle, updateViewType } from '../../Actions/uiActions';
 import { loginStatusSelector } from '../../Selectors/userSelector';
 import { modalNavberSelector, usernameSelector } from '../../Selectors/uiSelector'
-import { signout } from '../../Actions/UserActions';
+import { signout } from '../../Actions/userActions';
 
 const StyledMenu = withStyles({
     paper: {

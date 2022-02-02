@@ -137,5 +137,21 @@ export const useStyles = makeStyles(() => ({
         '& .MuiInputBase-root': {
             background: '#fff'
         }
+    },
+    admin_navbar: {
+        display: 'flex',
+        alignItems: 'center'
+    },
+    admin_action: {
+        flexGrow: 1,
+        display: 'flex',
+        justifyContent: 'end',
+        paddingRight: 30,
+        '& > button': {
+            textTransform: 'none'
+        }
+    },
+    admin_avatar: {
+        marginRight: 10
     }
 }))

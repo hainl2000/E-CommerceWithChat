@@ -15,11 +15,11 @@ import MailIcon from '@material-ui/icons/Mail';
 import { useState } from 'react';
 import { useStyles } from './style';
 import { useDispatch } from 'react-redux';
-import { updateLoginError, updateNavbarModal } from '../../Actions/UiActions';
+import { updateLoginError, updateNavbarModal } from '../../Actions/uiActions';
 import { useSelector } from 'react-redux';
 import { loginErrorSelector } from '../../Selectors/uiSelector';
 import { loginStatusSelector } from '../../Selectors/userSelector';
-import { signup } from '../../Actions/UserActions';
+import { signup } from '../../Actions/userActions';
 
 const SignUpModal = ({open, closeHandle}) => {
     const classes = useStyles()

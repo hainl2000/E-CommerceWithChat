@@ -14,8 +14,8 @@ import MailIcon from '@material-ui/icons/Mail';
 import { useEffect, useState } from 'react';
 import { useStyles } from './style';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateLoginError, updateNavbarModal } from '../../Actions/UiActions';
-import { login } from '../../Actions/UserActions';
+import { updateLoginError, updateNavbarModal } from '../../Actions/uiActions';
+import { login } from '../../Actions/userActions';
 import { loginStatusSelector } from '../../Selectors/userSelector';
 import { loginErrorSelector } from '../../Selectors/uiSelector';
 
