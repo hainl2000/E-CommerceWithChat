@@ -58,7 +58,7 @@ app.use(cors(corsConfig));
 
 //
 app.use('/', indexRouter);
-// app.use('/chat',roomRouter);
+app.use('/chat',roomRouter);
 app.use('/user', authorizationMiddleware.authorizeUser,userRouter);
 app.use('/admin', authorizationMiddleware.authorizeAdmin,adminRouter);
 // app.use('/supporter');
@@ -94,14 +94,14 @@ io.on("connection", function(socket){
     }
 
     const admin = '61c5f8d8c2d8f5b84ef5edb9'
-    // socket.on('loadMsg',async (data) => {
-    //     const {Msgs, error} = await roomController.loadMessages(data.roomId);
-    //     !error ? socket.emit('messagesLoaded', { Msgs }) : socket.emit('noChatFound')
-    //     // if(user.role == 1){
+    socket.on('loadMsg',async (data) => {
+        const {Msgs, error} = await roomController.loadMessages(data.roomId);
+        !error ? socket.emit('messagesLoaded', { Msgs }) : socket.emit('noChatFound')
+        // if(user.role == 1){
             
-    //     // }
+        // }
         
-    // })
+    })
     // console.log(userId.userId);
     //data = {role, roomId, msg}
     socket.on('sendNewMsg', async (data) =>
