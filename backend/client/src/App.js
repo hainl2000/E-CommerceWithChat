@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Admin, User } from './Role'
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux'
-import { fetchCategory } from './Actions/CategoryAction'
-import { fetchProducts } from './Actions/ProductActions'
-import { getLoginStatus } from './Actions/UserActions';
+import { fetchCategory } from './Actions/categoryActions'
+import { fetchProducts } from './Actions/productActions'
+import { getLoginStatus } from './Actions/userActions';
 
 function App() {
     const dispatch = useDispatch()

@@ -11,7 +11,7 @@ import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { useStyles } from './style';
 import { useDispatch } from 'react-redux';
-import { addIntoCart, discardFromCart, discardFromCartAll } from '../../Actions/CartActions';
+import { addIntoCart, discardFromCart, discardFromCartAll } from '../../Actions/cartActions';
 
 const CartItem = ({item, index}) => {
     const classes = useStyles()

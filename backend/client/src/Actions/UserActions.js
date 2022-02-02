@@ -10,13 +10,13 @@ import jwt from 'jsonwebtoken';
 //     }
 // }
 
-// export const sentMessage = (text) => {
-//     socket.emit('sendNewMsg', {  })
-// }
+export const sentMessage = (text) => {
+    socket.emit('sendNewMsg', { role: 1, msg: text })
+}
 
 export const login = (email, password) => {
     return dispatch => {
-        axios.post('http://localhost:8000/login', { email: email, password: password }, {withCredentials: true})
+        axios.post('/login', { email: email, password: password }, {withCredentials: true})
         .then(response => {
             console.log(response)
         }).then(() => {
@@ -39,7 +39,7 @@ export const login = (email, password) => {
 
 export const signup = (username, email, password) => {
     return dispatch => {
-        axios.post('http://localhost:8000/signup', { username: username, email: email, password: password }, { withCredentials: true })
+        axios.post('/signup', { username: username, email: email, password: password }, { withCredentials: true })
         .then(response => {
             console.log(response)
         }).then(() => {
@@ -62,7 +62,7 @@ export const signup = (username, email, password) => {
 
 export const signout = () => {
     return dispatch => {
-        axios('http://localhost:8000/user/signout', { withCredentials: true, method: 'POST' })
+        axios('user/signout', { withCredentials: true, method: 'POST' })
         .then(response => {
             dispatch({
                 type: ACTIONS.LOGOUT
@@ -76,12 +76,13 @@ export const getLoginStatus = () => {
         const cookie = Cookies.get('userId')
         if(cookie)
         {
-            axios.get('http://localhost:8000/user/getData', { withCredentials: true })
+            axios.get('/user/getData', { withCredentials: true })
             .then(response => {
                 if(response)
                 {
                     const token = jwt.verify(response.data.dataUser, process.env.JWT_KEY || 'HAI1012')
                     dispatch({ type: ACTIONS.SET_COOKIE, username: token.userInformation })
+                    socket.emit('join')
                 }
             })
         }

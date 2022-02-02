@@ -17,8 +17,8 @@ import { useParams } from "react-router";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { selectedProductSelector } from "../../Selectors/productSelector";
-import { selectProduct } from "../../Actions/ProductActions";
-import { addIntoCart } from "../../Actions/CartActions";
+import { selectProduct } from "../../Actions/productActions";
+import { addIntoCart } from "../../Actions/cartActions";
 
 const ProductInfo = () => {
     const dispatch = useDispatch()

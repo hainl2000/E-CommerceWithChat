@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router';
 import { useStyles } from "./style";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { updateProductsTitle, updateViewType } from "../../Actions/UiActions";
+import { updateProductsTitle, updateViewType } from "../../Actions/uiActions";
 
 const Category = ({ categoryName = 'Category', products = [], id }) => {
     const classes = useStyles()

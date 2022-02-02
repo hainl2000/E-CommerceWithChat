@@ -37,7 +37,6 @@ const removeUser = async socketId =>
 
 
 const findConnectedUser = userId => {
-    console.log(userId)
     return users.find(user => user.userId === userId)
 }
 

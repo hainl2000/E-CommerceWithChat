@@ -11,7 +11,7 @@ import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { useNavigate } from 'react-router';
 import { useStyles } from "./style";
 import { useDispatch } from 'react-redux';
-import { addIntoCart } from "../../Actions/CartActions";
+import { addIntoCart } from "../../Actions/cartActions";
 
 const ProductItem = ({product = {}}) => {
     const classes = useStyles()

@@ -85,8 +85,9 @@ io.on("connection", function(socket){
     if(socket.handshake.headers.cookie)
     {
         var cookies = cookie.parse(socket.handshake.headers.cookie);
-        // console.log(cookies);
+        console.log('cookie:   ', cookies);
         var userId = jwt.verify(cookies.userId,process.env.JWT_KEY);
+        console.log(userId)
         socket.on('join', async (data) => {
             const users = await  roomAction.addUser(userId.userId, socket.id);
         })
