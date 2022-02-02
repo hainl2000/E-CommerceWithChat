@@ -4,14 +4,26 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import jwt from 'jsonwebtoken';
 
-// export const fetchMessages = () => {
-//     return dispatch => {
+export const fetchMessages = () => {
+    socket.emit('loadMsg')
+}
 
-//     }
-// }
+export const receiveMessagesData = (data) => {
+    return {
+        type: ACTIONS.FETCH_MESSAGES,
+        data
+    }
+}
 
 export const sentMessage = (text) => {
     socket.emit('sendNewMsg', { role: 1, msg: text })
+}
+
+export const receiveMessage = (text) => {
+    return {
+        type: ACTIONS.RECEIVE_MESSAGE,
+        message: text
+    }
 }
 
 export const login = (email, password) => {
@@ -81,6 +93,7 @@ export const getLoginStatus = () => {
                 if(response)
                 {
                     const token = jwt.verify(response.data.dataUser, process.env.JWT_KEY || 'HAI1012')
+                    console.log(token)
                     dispatch({ type: ACTIONS.SET_COOKIE, username: token.userInformation })
                     socket.emit('join')
                 }

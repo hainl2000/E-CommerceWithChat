@@ -75,7 +75,8 @@ export const useStyles = makeStyles((theme) => ({
         background: '#a8ffc8',
         marginBottom: 10,
         padding: 5,
-        borderRadius: 5
+        borderRadius: 5,
+        textAlign: 'right'
     },
     textBubble_admin: {
         background: '#ff7373',

@@ -9,11 +9,13 @@ import {
 import { useState, useRef, useEffect } from 'react'
 import SendIcon from '@material-ui/icons/Send';
 import { useStyles } from '../style';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { messagesSelector } from '../../../Selectors/userSelector';
-import { sentMessage } from '../../../Actions/userActions';
+import { receiveMessage, sentMessage } from '../../../Actions/userActions';
+import { socket } from '../../../socket';
 
 const Inbox = () => {
+    const dispatch = useDispatch()
     const classes = useStyles()
     const endText = useRef(null)
     const [endTextEl, setEndTextEl] = useState(null)
@@ -29,14 +31,30 @@ const Inbox = () => {
         setText('')
     }
 
+    useEffect(() => {
+        socket.on('msgSent', data => {
+            console.log(data.result)
+            dispatch(receiveMessage(data.result))
+        })
+
+        return () => {
+            socket.off('msgSent')
+        }
+    }, [socket])
+
     return (
         <Box className={classes.drawer}>
             <Typography variant='h5'>Trợ giúp</Typography>
             <Paper elevation={5} className={classes.textContainer}>
                 {messages.map((textItem, index) => {
                     return (
-                        <Box key={index} className={index % 2 === 0 ? classes.textBubble_admin : classes.textBubble_customer}>
-                            {textItem.text}
+                        <Box key={index} className={classes.textBubble_customer}>
+                            <Typography>
+                                {textItem.content}
+                            </Typography>
+                            <Typography>
+                                {textItem.sendAt}
+                            </Typography>
                         </Box>
                     )
                 })}

@@ -19,9 +19,11 @@ const loadMessages = async(roomId) => {
                 },restrictedFields);
         // console.log(msg);
         let userSent = await AccountModel.findById(msg.from);
+        // console.log(userSent)
         listMessages.push({msg : msg.content , userSent : userSent.username});
         console.log(listMessages);
     }));
+    console.log(listMessages)
     return listMessages;
 }
 
