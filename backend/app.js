@@ -19,7 +19,7 @@ const io = socket(server)
 const jwt = require("jsonwebtoken");
 const AccountModel = require('./models/user');
 const roomController = require('./controllers/room');
-const msgController = require('./controllers/message')
+const msgController = require('./controllers/message');
 const roomAction = require('./action/roomAction');
 
 
@@ -85,9 +85,9 @@ io.on("connection", function(socket){
     if(socket.handshake.headers.cookie)
     {
         var cookies = cookie.parse(socket.handshake.headers.cookie);
-        console.log('cookie:   ', cookies);
+        // console.log('cookie:   ', cookies);
         var userId = jwt.verify(cookies.userId,process.env.JWT_KEY);
-        console.log(userId)
+        console.log(userId.userId);
         socket.on('join', async (data) => {
             const users = await  roomAction.addUser(userId.userId, socket.id);
         })
@@ -102,12 +102,16 @@ io.on("connection", function(socket){
     //     // }
         
     // })
-
+    // console.log(userId.userId);
     //data = {role, roomId, msg}
     socket.on('sendNewMsg', async (data) =>
-    {
+    {   
+        console.log('userId.userID');
+        console.log(userId.userId);
+        console.log('data');
+        console.log(data);
       const { newMsg, error } = await msgController.sendMsg(data.role === 0 ? data.roomId : userId.userId, userId.userId, data.msg);
-      console.log('admin', admin, data.role)
+    //   console.log('admin', admin, data.role)
       if(data.role === 1)
         var receiver = roomAction.findConnectedUser(admin);
       else
@@ -120,10 +124,12 @@ io.on("connection", function(socket){
             //   else
             //   {
                 //     await setMsgToUnread(msgSendToUserId)
-                //   }
-        console.log(newMsg)
+        //         //   }
+        // console.log('msg');
+        // console.log(newMsg);
+        // console.log('receiver ' . receiver);
         io.to(receiver.socketId).emit("newMsgReceived",{newMsg});
-    //   !error && socket.emit('msgSent', { newMsg });
+      !error && socket.emit('msgSent', { newMsg });
     })
 });
 

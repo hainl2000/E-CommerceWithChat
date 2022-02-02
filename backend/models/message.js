@@ -11,7 +11,8 @@ const MessageSchema = new Schema({
         ref: 'User'
     },
     sentAt: {
-        type: Date
+        type: Date,
+        default: Date.now()
     }
 },{
     collection: 'Message',

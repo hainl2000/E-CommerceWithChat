@@ -196,7 +196,7 @@ const Signup =async (req,res) =>{
                 lastMessage: message.content
             });
             // await room.messages.push(message._id);
-            console.log(room.messages);
+            // console.log(room.messages);
             // await room.messages.msg
             await room.save((function (err) {
                 if (err) {
