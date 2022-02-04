@@ -80,7 +80,9 @@ const getUserInformation = (req,res,next) =>{
         _id: req.userId
     }).then(data =>{
         const userInformation = jwt.sign({
-            userInformation : data.email
+            userInformation : data.email,
+            userID : data._id,
+            usesrName: data.username
         },process.env.JWT_KEY);
         return res.status(200).send({
             dataUser : userInformation,
