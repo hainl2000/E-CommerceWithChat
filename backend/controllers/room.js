@@ -26,14 +26,26 @@ const loadMessages = async(roomId) => {
                 console.log('error 1');
             }
         }));
-        console.log(listMessages);
+        // console.log(listMessages);
         return listMessages;
     }catch(err){
         console.log('error 2');
     }
 }
 
-const getListRooms = a
+const getRoomList = async(req,res) => {
+    let restrictedFieldsInRoom = {
+        _id: false,
+        messages : false
+    }
+    let roomList = await RoomModel.find({
+
+    },restrictedFieldsInRoom);
+    return res.status(200).json({
+        roomList : roomList,
+        message : "getRoomList successfully"
+    })
+};
 
 // const loadMessages = async(req,res) => {
 //     let roomId = req.body.roomId;
@@ -68,5 +80,6 @@ const getListRooms = a
 // }
 
 module.exports = {
-    loadMessages
+    loadMessages,
+    getRoomList
 }
