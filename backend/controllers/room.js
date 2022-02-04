@@ -26,7 +26,6 @@ const loadMessages = async(roomId) => {
                 console.log('error 1');
             }
         }));
-        console.log(listMessages);
         return listMessages;
     }catch(err){
         console.log('error 2');
