@@ -12,6 +12,7 @@ import { useStyles } from '../style';
 import { useDispatch, useSelector } from "react-redux";
 import { messagesSelector } from '../../../Selectors/userSelector';
 import { receiveMessage, sentMessage } from '../../../Actions/userActions';
+import { userIdSelector } from '../../../Selectors/uiSelector'
 import { socket } from '../../../socket';
 
 const Inbox = () => {
@@ -21,6 +22,7 @@ const Inbox = () => {
     const [endTextEl, setEndTextEl] = useState(null)
     const [text, setText] = useState('')
     const messages = useSelector(messagesSelector)
+    const userId = useSelector(userIdSelector)
     
     useEffect(() => {
         endText.current?.scrollIntoView({ behavior: 'smooth' })
@@ -35,6 +37,7 @@ const Inbox = () => {
         socket.on('msgSent', data => {
             console.log(data.result)
             dispatch(receiveMessage(data.result))
+            endText.current?.scrollIntoView({ behavior: 'smooth' })
         })
 
         return () => {
@@ -48,9 +51,9 @@ const Inbox = () => {
             <Paper elevation={5} className={classes.textContainer}>
                 {messages.map((textItem, index) => {
                     return (
-                        <Box key={index} className={classes.textBubble_customer}>
+                        <Box key={index} className={userId === textItem.userSentID ? classes.textBubble_customer : classes.textBubble_admin}>
                             <Typography>
-                                {textItem.content}
+                                {textItem.msg}
                             </Typography>
                             <Typography>
                                 {textItem.sendAt}

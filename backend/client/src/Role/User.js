@@ -4,14 +4,17 @@ import { Home, Admin, Cart, Category, ProductInfo } from '../Pages'
 import { socket } from '../socket'
 import { useDispatch } from 'react-redux'
 import { receiveMessagesData, fetchMessages } from "../Actions/userActions"
+import { useSelector } from "react-redux"
+import { userIdSelector } from "../Selectors/uiSelector"
 
 const User = ({type = 'home'}) => {
     const dispatch = useDispatch()
+    const userId = useSelector(userIdSelector)
 
     useEffect(() => {
         socket.on('messagesLoaded', data => {
-            console.log(data)
-            // dispatch(receiveMessagesData(data))
+            // console.log(data)
+            dispatch(receiveMessagesData(data))
         })
 
         return () => {
@@ -20,8 +23,8 @@ const User = ({type = 'home'}) => {
     }, [socket])
 
     useEffect(() => {
-        fetchMessages()
-    }, [])
+        fetchMessages({ roomId: userId })
+    }, [userId])
 
     const getContent = () => {
         switch (type)
