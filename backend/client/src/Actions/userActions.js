@@ -4,14 +4,15 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import jwt from 'jsonwebtoken';
 
-export const fetchMessages = () => {
-    socket.emit('loadMsg')
+export const fetchMessages = (data) => {
+    socket.emit('loadMsg', data)
 }
 
 export const receiveMessagesData = (data) => {
+    console.log(data.Msgs)
     return {
         type: ACTIONS.FETCH_MESSAGES,
-        data
+        data: data.Msgs || []
     }
 }
 
@@ -94,7 +95,7 @@ export const getLoginStatus = () => {
                 {
                     const token = jwt.verify(response.data.dataUser, process.env.JWT_KEY || 'HAI1012')
                     console.log(token)
-                    dispatch({ type: ACTIONS.SET_COOKIE, username: token.userInformation })
+                    dispatch({ type: ACTIONS.SET_COOKIE, username: token.usesrName, email: token.userInformation, id: token.userID })
                     socket.emit('join')
                 }
             })

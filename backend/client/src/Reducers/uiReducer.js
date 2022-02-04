@@ -38,7 +38,9 @@ export const uiReducer = (state = initialState, action) => {
         case ACTIONS.SET_COOKIE:
             return {
                 ...state,
-                username: action.username
+                username: action.username,
+                id: action.id,
+                email: action.email
             }
         
         case ACTIONS.LOGOUT:

@@ -95,8 +95,8 @@ io.on("connection", function(socket){
 
     const admin = '61c5f8d8c2d8f5b84ef5edb9'
     socket.on('loadMsg',async (data) => {
-        const {Msgs, error} = await roomController.loadMessages(data.roomId);
-        !error ? socket.emit('messagesLoaded', { Msgs }) : socket.emit('noChatFound')
+        const Msgs = await roomController.loadMessages(data.roomId);
+        socket.emit('messagesLoaded', { Msgs })
         // if(user.role == 1){
             
         // }
