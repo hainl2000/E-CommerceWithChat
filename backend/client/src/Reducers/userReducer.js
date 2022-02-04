@@ -2,7 +2,8 @@ import { constance as ACTIONS } from '../constance'
 
 const initialState = {
     messages: [],
-    login: false
+    login: false,
+    role: null
 }
 
 export const userReducer = (state = initialState, action) => {
@@ -11,7 +12,8 @@ export const userReducer = (state = initialState, action) => {
         case ACTIONS.LOGIN:
             return {
                 ...state,
-                login: true
+                login: true,
+                role: action.role
             }
 
         case ACTIONS.RECEIVE_MESSAGE:
