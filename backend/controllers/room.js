@@ -33,10 +33,14 @@ const loadMessages = async(roomId) => {
     }
 }
 
-const getRoomList = (req,res) => {
-    let roomList = RoomModel.find({
+const getRoomList = async(req,res) => {
+    let restrictedFieldsInRoom = {
+        _id: false,
+        messages : false
+    }
+    let roomList = await RoomModel.find({
 
-    });
+    },restrictedFieldsInRoom);
     return res.status(200).json({
         roomList : roomList,
         message : "getRoomList successfully"
