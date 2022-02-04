@@ -20,7 +20,7 @@ const loadMessages = async(roomId) => {
                             _id : message.msg
                         },restrictedFields);
                 let userSent = await AccountModel.findById(msg.from);
-                listMessages.push({msg : msg.content , userSent : userSent.username});
+                listMessages.push({msg : msg.content , userSent : userSent.username, userSentID : userSent._id});
                 return ;
             }catch(err){
                 console.log('error 1');
