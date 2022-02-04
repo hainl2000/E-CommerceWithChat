@@ -52,7 +52,7 @@ const authorizeUser = (req,res,next) =>{
         AccountModel.findOne({
             _id : userId.userId
         }).then(data =>{
-            if(data.role == 1){
+            if(data.role == 1 || data.role == 0){
                 console.log("Login = user account");
                 req.userId = data._id;
                 return next();
