@@ -46,6 +46,7 @@ const sendMsg = async (roomId, userId, msg) => {
         const newMsgReceived = {
             content : newMsg.content,
             from : user.username,
+            userSentId: user._id,
             sentAt : newMsg.sentAt
         };
         console.log(newMsgReceived)
