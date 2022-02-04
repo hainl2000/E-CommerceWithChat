@@ -6,4 +6,5 @@ const messageController = require('../controllers/message');
 
 router.get('/loadMessages',roomController.loadMessages);
 // router.post('/sendMsg',messageController.sendMessage);
+router.get('/getRoomList',roomController.getRoomList);
 module.exports = router;
