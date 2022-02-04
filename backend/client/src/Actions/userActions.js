@@ -31,14 +31,15 @@ export const login = (email, password) => {
     return dispatch => {
         axios.post('/login', { email: email, password: password }, {withCredentials: true})
         .then(response => {
-            console.log(response)
-        }).then(() => {
+            return response.data.role
+        }).then((role) => {
             dispatch({
                 type: ACTIONS.LOGIN_RESULT,
                 error: false
             })
             dispatch({
-                type: ACTIONS.LOGIN
+                type: ACTIONS.LOGIN,
+                role
             })
             dispatch(getLoginStatus())
         }).catch(err => {
