@@ -20,20 +20,20 @@ const loadMessages = async(roomId) => {
                             _id : message.msg
                         },restrictedFields);
                 let userSent = await AccountModel.findById(msg.from);
-                listMessages.push({msg : msg.content , userSent : userSent.username, userSentID : msg.from});
-                return ;    
+                listMessages.push({msg : msg.content , userSent : userSent.username, userSentID : userSent._id});
+                return ;
             }catch(err){
                 console.log('error 1');
             }
         }));
         console.log(listMessages);
-        return res.status(200).json({
-                    listMessages: listMessages
-        })
+        return listMessages;
     }catch(err){
         console.log('error 2');
     }
 }
+
+const getListRooms = a
 
 // const loadMessages = async(req,res) => {
 //     let roomId = req.body.roomId;

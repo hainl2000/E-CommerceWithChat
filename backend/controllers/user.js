@@ -82,7 +82,8 @@ const getUserInformation = (req,res,next) =>{
         const userInformation = jwt.sign({
             userInformation : data.email,
             userID : data._id,
-            usesrName: data.username
+            usesrName: data.username,
+            userRole : data.role
         },process.env.JWT_KEY);
         return res.status(200).send({
             dataUser : userInformation,
