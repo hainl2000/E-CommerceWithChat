@@ -16,6 +16,9 @@ const RoomSchema = new Schema({
     }],
     last_message:{
         type: String,
+    },
+    roomName: {
+        type: String
     }
 },{
     collection: 'Room',
