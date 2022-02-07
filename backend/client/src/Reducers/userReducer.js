@@ -31,7 +31,8 @@ export const userReducer = (state = initialState, action) => {
         case ACTIONS.SET_COOKIE:
             return {
                 ...state,
-                login: true
+                login: true,
+                role: action.role
             }
 
         case ACTIONS.LOGOUT:

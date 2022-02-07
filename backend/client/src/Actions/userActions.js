@@ -23,7 +23,7 @@ export const sentMessage = (text) => {
 export const receiveMessage = (text) => {
     return {
         type: ACTIONS.RECEIVE_MESSAGE,
-        message: text
+        message: {...text, msg: text.content}
     }
 }
 
@@ -95,8 +95,7 @@ export const getLoginStatus = () => {
                 if(response)
                 {
                     const token = jwt.verify(response.data.dataUser, process.env.JWT_KEY || 'HAI1012')
-                    console.log(token)
-                    dispatch({ type: ACTIONS.SET_COOKIE, username: token.usesrName, email: token.userInformation, id: token.userID })
+                    dispatch({ type: ACTIONS.SET_COOKIE, username: token.usesrName, email: token.userInformation, id: token.userID, role: token.userRole })
                     socket.emit('join')
                 }
             })

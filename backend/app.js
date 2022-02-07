@@ -61,6 +61,7 @@ app.use('/', indexRouter);
 app.use('/chat',roomRouter);
 app.use('/user', authorizationMiddleware.authorizeUser,userRouter);
 app.use('/admin', authorizationMiddleware.authorizeAdmin,adminRouter);
+app.use('/room', roomRouter)
 // app.use('/supporter');
 
 
@@ -105,13 +106,8 @@ io.on("connection", function(socket){
     // console.log(userId.userId);
     //data = {role, roomId, msg}
     socket.on('sendNewMsg', async (data) =>
-    {   
-        console.log('userId.userID');
-        console.log(userId.userId);
-        console.log('data');
-        console.log(data);
-    msgController.sendMsg(data.role === 0 ? data.roomId : userId.userId, userId.userId, data.msg).then(result => {
-        console.log('result', result)
+    {
+        msgController.sendMsg(data.role === 0 ? data.roomId : userId.userId, userId.userId, data.msg).then(result => {
         socket.emit('msgSent', { result, key: 'aaa' });
     });
     //   console.log('admin', admin, data.role)

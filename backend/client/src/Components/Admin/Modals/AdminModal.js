@@ -1,25 +1,11 @@
 import { Box, Modal } from "@material-ui/core"
 import { useEffect } from "react"
-import { useStyles } from "./style"
+import { useStyles } from "../style"
+import AddModal from "./AddModal";
+import EditModal from "./EditModal"
 
 const AdminModal = ({add = false, edit = false, view = false, open = false, setOpen}) => {
     const classes = useStyles()
-
-    const AddModal = () => {
-        return (
-            <Box className={classes.modalContainer}>
-                Add
-            </Box>
-        )
-    }
-
-    const EditModal = () => {
-        return (
-            <Box className={classes.modalContainer}>
-                Edit
-            </Box>
-        )
-    }
 
     const ViewModal = () => {
         return (

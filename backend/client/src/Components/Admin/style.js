@@ -10,8 +10,8 @@ export const useStyles = makeStyles(() => ({
         marginBottom: 20
     },
     panels: {
-        // display: 'flex',
-        // flexWrap: 'wrap',
+        display: 'flex',
+        flexWrap: 'wrap',
         // justifyContent: 'space-between',
         // overflowY: 'auto',
         // flex: '1 1 auto',
@@ -21,7 +21,7 @@ export const useStyles = makeStyles(() => ({
         boxSizing: 'border-box',
         // display: 'flex',
         // flexFlow: 'column',
-        // height: '100%',
+        height: 'calc(100vh - 100px)',
         // background: '#eee',
         flex: '1 1 auto',
     },
@@ -75,6 +75,7 @@ export const useStyles = makeStyles(() => ({
         display: 'flex',
         // background: '#aaa',
         maxHeight: 'calc(100vh - 100px)',
+        height: 'calc(100vh - 100px)',
         overflow: 'auto',
     },
     inboxList: {
@@ -206,5 +207,49 @@ export const useStyles = makeStyles(() => ({
         fontSize: 'small',
         position: 'absolute',
         bottom: 80
+    },
+    addForm: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    imageTitle: {
+        display: 'flex',
+        flexDirection: 'row'
+    },
+    imagesList: {
+        display: 'flex',
+        flexDirection: 'column',
+        maxHeight: 200,
+        overflow: 'auto',
+        '& > div': {
+            marginBottom: 5
+        }
+    },
+    bottomContainerAddForm: {
+        display: 'flex',
+        width: '90%',
+        '& > div': {
+            flexGrow: 1
+        }
+    },
+    addField: {
+        width: '100%'
+    },
+    addFormSaveBtn: {
+        textAlign: 'center'
+    },
+    upperInformation: {
+        display: 'flex',
+        width: '90%',
+        height: 350,
+        '& > div': {
+            flexGrow: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            paddingLeft: 10,
+            paddingRight: 10,
+            paddingTop: 20
+        }
     }
 }))

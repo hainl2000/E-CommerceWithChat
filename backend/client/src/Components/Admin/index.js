@@ -11,10 +11,10 @@ import {
     TextField,
     InputAdornment
 } from "@material-ui/core"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useStyles } from "./style";
 import ProductList from "./ProductList";
-import AdminModal from "./AdminModal";
+import AdminModal from "./Modals/AdminModal";
 
 import SearchIcon from '@material-ui/icons/Search';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
@@ -31,6 +31,8 @@ import { loginStatusSelector, roleSelector } from '../../Selectors/userSelector'
 import { loginErrorSelector } from '../../Selectors/uiSelector'
 import { useSelector, useDispatch } from 'react-redux'
 import { login } from '../../Actions/userActions';
+import { fetchRooms } from "../../Actions/adminActions";
+import { getLoginStatus } from '../../Actions/userActions'
 
 const Admin = () => {
     const classes = useStyles()
@@ -56,6 +58,15 @@ const Admin = () => {
         dispatch(login(email, password))
     }
 
+    useEffect(() => {
+        if (role === 0)
+        {
+            dispatch(fetchRooms())
+        }else{
+            dispatch(getLoginStatus())
+        }
+    }, [role])
+
     return (
         <Box className={classes.root}>
             <Box className={classes.admin_navbar}>
@@ -75,8 +86,8 @@ const Admin = () => {
                 </Box>
             </Box>
             <Box className={classes.panelContainer}>
-                <Inbox/>
-                {/* <ProductList/> */}
+                {/* <Inbox/> */}
+                <ProductList setOpenModal={setOpenModal} setModalType={setModalType}/>
                 {/* <Box className={classes.tool}>
                     <FormControl className={classes.form}>
                         <TextField
@@ -122,7 +133,7 @@ const Admin = () => {
                 </Box> */}
             </Box>
             <Modal
-                open={!loginStatus || role !== 0 || !role}
+                open={role !== 0}
             >
                 <Container className={classes.loginModalContainer}>
                     <Typography className={classes.modalTitle} variant='h4'>
@@ -174,7 +185,7 @@ const Admin = () => {
                     </Typography>}
                 </Container>
             </Modal>
-            {/* <AdminModal view={modalType === 'view'} edit={modalType === 'edit'} add={modalType === 'add'} open={openModal} setOpen={setOpenModal}/> */}
+            <AdminModal view={modalType === 'view'} edit={modalType === 'edit'} add={modalType === 'add'} open={openModal} setOpen={setOpenModal}/>
         </Box>
     )
 }
