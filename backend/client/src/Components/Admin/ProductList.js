@@ -13,8 +13,22 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import { product_data } from '../Cart/data';
 import { useStyles } from './style';
 
-const ProductList = () => {
+const ProductList = ({ setOpenModal, setModalType }) => {
     const classes = useStyles()
+
+    const openViewHandle = () => {
+        setModalType('view')
+        setOpenModal(true)
+    }
+    const openEditHandle = () => {
+        setModalType('edit')
+        setOpenModal(true)
+    }
+    const openAddModal = () => {
+        setModalType('add')
+        setOpenModal(true)
+    }
+
     return (
         <>
             <Box className={classes.tool}>
@@ -31,7 +45,7 @@ const ProductList = () => {
                         }}
                     />
                 </FormControl>
-                <AddBoxIcon fontSize="large" className={classes.icon}/>
+                <AddBoxIcon fontSize="large" className={classes.icon} onClick={openAddModal}/>
             </Box>
             <Box className={classes.panels}>
                 {product_data.map((product, index) => 
@@ -45,8 +59,8 @@ const ProductList = () => {
                                 {Intl.NumberFormat().format(product.price)} VND
                             </Typography>
                         </Box>
-                        <VisibilityIcon className={classes.icon}/>
-                        <EditIcon className={classes.icon}/>
+                        <VisibilityIcon className={classes.icon} onClick={openViewHandle}/>
+                        <EditIcon className={classes.icon} onClick={openEditHandle}/>
                         <DeleteForeverIcon className={classes.icon}/>
                     </Box>
                 )}

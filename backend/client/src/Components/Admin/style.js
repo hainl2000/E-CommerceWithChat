@@ -10,8 +10,8 @@ export const useStyles = makeStyles(() => ({
         marginBottom: 20
     },
     panels: {
-        // display: 'flex',
-        // flexWrap: 'wrap',
+        display: 'flex',
+        flexWrap: 'wrap',
         // justifyContent: 'space-between',
         // overflowY: 'auto',
         // flex: '1 1 auto',
@@ -21,7 +21,7 @@ export const useStyles = makeStyles(() => ({
         boxSizing: 'border-box',
         // display: 'flex',
         // flexFlow: 'column',
-        // height: '100%',
+        height: 'calc(100vh - 100px)',
         // background: '#eee',
         flex: '1 1 auto',
     },
@@ -75,6 +75,7 @@ export const useStyles = makeStyles(() => ({
         display: 'flex',
         // background: '#aaa',
         maxHeight: 'calc(100vh - 100px)',
+        height: 'calc(100vh - 100px)',
         overflow: 'auto',
     },
     inboxList: {
@@ -153,5 +154,102 @@ export const useStyles = makeStyles(() => ({
     },
     admin_avatar: {
         marginRight: 10
+    },
+    loginModalContainer: {
+        width: 300,
+        height: 400,
+        marginTop: 100,
+        borderRadius: 5,
+        background: '#fff',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        position: 'relative'
+    },
+    modalTitle: {
+        paddingTop: 60,
+        paddingBottom: 30,
+        fontFamily: 'Roboto'
+    },
+    loginForm: {
+        width: '90%',
+        '& > .MuiFormControl-root': {
+            marginBottom: 20
+        }
+    },
+    loginButton: {
+        background: '#802feb',
+        color: '#fff',
+        width: 150,
+        borderRadius: 20,
+        marginTop: 20,
+        transition: 'background 500ms',
+        '&:hover': {
+            background: '#5619a6'
+        }
+    },
+    switchModalLink: {
+        fontWeight: 'bold',
+        position: 'absolute',
+        fontSize: 15,
+        bottom: 10,
+        cursor: 'pointer',
+        transition: 'color 250ms',
+        '&:hover': {
+            color: '#555'
+        }
+    },
+    eyeIcon: {
+        cursor: 'pointer'
+    },
+    errorMessage: {
+        color: '#ff0000',
+        fontSize: 'small',
+        position: 'absolute',
+        bottom: 80
+    },
+    addForm: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    imageTitle: {
+        display: 'flex',
+        flexDirection: 'row'
+    },
+    imagesList: {
+        display: 'flex',
+        flexDirection: 'column',
+        maxHeight: 200,
+        overflow: 'auto',
+        '& > div': {
+            marginBottom: 5
+        }
+    },
+    bottomContainerAddForm: {
+        display: 'flex',
+        width: '90%',
+        '& > div': {
+            flexGrow: 1
+        }
+    },
+    addField: {
+        width: '100%'
+    },
+    addFormSaveBtn: {
+        textAlign: 'center'
+    },
+    upperInformation: {
+        display: 'flex',
+        width: '90%',
+        height: 350,
+        '& > div': {
+            flexGrow: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            paddingLeft: 10,
+            paddingRight: 10,
+            paddingTop: 20
+        }
     }
 }))

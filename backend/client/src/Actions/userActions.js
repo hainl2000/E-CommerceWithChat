@@ -4,14 +4,15 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import jwt from 'jsonwebtoken';
 
-export const fetchMessages = () => {
-    socket.emit('loadMsg')
+export const fetchMessages = (data) => {
+    socket.emit('loadMsg', data)
 }
 
 export const receiveMessagesData = (data) => {
+    console.log(data.Msgs)
     return {
         type: ACTIONS.FETCH_MESSAGES,
-        data
+        data: data.Msgs || []
     }
 }
 
@@ -22,7 +23,7 @@ export const sentMessage = (text) => {
 export const receiveMessage = (text) => {
     return {
         type: ACTIONS.RECEIVE_MESSAGE,
-        message: text
+        message: {...text, msg: text.content}
     }
 }
 
@@ -30,14 +31,15 @@ export const login = (email, password) => {
     return dispatch => {
         axios.post('/login', { email: email, password: password }, {withCredentials: true})
         .then(response => {
-            console.log(response)
-        }).then(() => {
+            return response.data.role
+        }).then((role) => {
             dispatch({
                 type: ACTIONS.LOGIN_RESULT,
                 error: false
             })
             dispatch({
-                type: ACTIONS.LOGIN
+                type: ACTIONS.LOGIN,
+                role
             })
             dispatch(getLoginStatus())
         }).catch(err => {
@@ -93,8 +95,7 @@ export const getLoginStatus = () => {
                 if(response)
                 {
                     const token = jwt.verify(response.data.dataUser, process.env.JWT_KEY || 'HAI1012')
-                    console.log(token)
-                    dispatch({ type: ACTIONS.SET_COOKIE, username: token.userInformation })
+                    dispatch({ type: ACTIONS.SET_COOKIE, username: token.usesrName, email: token.userInformation, id: token.userID, role: token.userRole })
                     socket.emit('join')
                 }
             })
