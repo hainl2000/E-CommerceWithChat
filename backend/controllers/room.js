@@ -14,18 +14,29 @@ const loadMessages = async(roomId) => {
         const room = await RoomModel.findOne({
             roomId : roomId
         });
-        await Promise.all(room.messages.map(async(message)=>{
-            try{
-                let msg = await MessageModel.findOne({
-                            _id : message.msg
-                        },restrictedFields);
-                let userSent = await AccountModel.findById(msg.from);
-                listMessages.push({msg : msg.content , userSent : userSent.username, userSentID : userSent._id});
-                return ;
-            }catch(err){
-                console.log('error 1');
-            }
-        }));
+        // await Promise.all(room.messages.map(async(message)=>{
+        //     try{
+        //         let msg = await MessageModel.findOne({
+        //                     _id :message.msg
+        //                 },restrictedFields);
+        //         let userSent = await AccountModel.findById(msg.from);
+        //         listMessages.push({msg : msg.content , userSent : userSent.username, userSentID : userSent._id});
+        //         return ;
+        //     }catch(err){
+        //         console.log('error 1');
+        //     }
+        // }));
+        let msgs = await MessageMode.find({
+            _id: {$in : room.massages}
+        },restrictedFields);
+        msgs.forEach(async(msg)=>{
+            let userSent = await AccountModel.findById(msg.from);
+            listMessages.push({
+                msg: msg.content,
+                userSent: userSent.username,
+                userSentID : userSent._id
+            })
+        });
         return listMessages;
     }catch(err){
         console.log('error 2');
