@@ -112,7 +112,7 @@ io.on("connection", function(socket){
             socket.emit('msgSent', { result, key: 'aaa' });
             console.log(data.role)
             let receiverSocket = roomAction.findConnectedUser(data.role === 0? data.roomId : admin);
-            console.log(receiverSocket === undefined)
+            // console.log(receiverSocket === undefined)
             if(receiverSocket)
             {
                 console.log('sent')

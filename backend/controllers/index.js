@@ -115,7 +115,8 @@ const Signup =async (req,res) =>{
                 messages: [{
                     msg : message._id
                 }],
-                lastMessage: message.content
+                lastMessage: message.content,
+                roomName : user.username,
             });
             // await room.messages.push(message._id);
             // console.log(room.messages);
