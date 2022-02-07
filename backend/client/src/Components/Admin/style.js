@@ -120,12 +120,20 @@ export const useStyles = makeStyles(() => ({
         textAlign: 'center',
         marginBottom: 10
     },
-    textBuble: {
+    textBubleCustomer: {
         background: '#f54242',
         padding: 10,
         borderRadius: 10,
         color: '#fff',
         marginBottom: 5
+    },
+    textBubleAdmin: {
+        background: '#a8ffc8',
+        padding: 10,
+        borderRadius: 10,
+        color: '#000',
+        marginBottom: 5,
+        textAlign: 'right'
     },
     textContainer: {
         height: '90%',

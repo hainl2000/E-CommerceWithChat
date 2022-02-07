@@ -35,13 +35,18 @@ const Inbox = () => {
 
     useEffect(() => {
         socket.on('msgSent', data => {
-            console.log(data.result)
+            dispatch(receiveMessage(data.result))
+            endText.current?.scrollIntoView({ behavior: 'smooth' })
+        })
+        
+        socket.on('newMsgReceived', data => {
             dispatch(receiveMessage(data.result))
             endText.current?.scrollIntoView({ behavior: 'smooth' })
         })
 
         return () => {
             socket.off('msgSent')
+            socket.off('newMsgReceived')
         }
     }, [socket])
 

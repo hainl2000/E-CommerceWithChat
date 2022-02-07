@@ -86,8 +86,8 @@ const Admin = () => {
                 </Box>
             </Box>
             <Box className={classes.panelContainer}>
-                {/* <Inbox/> */}
-                <ProductList setOpenModal={setOpenModal} setModalType={setModalType}/>
+                <Inbox/>
+                {/* <ProductList setOpenModal={setOpenModal} setModalType={setModalType}/> */}
                 {/* <Box className={classes.tool}>
                     <FormControl className={classes.form}>
                         <TextField

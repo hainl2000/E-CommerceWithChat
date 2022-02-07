@@ -16,19 +16,24 @@ export const fetchRooms = () => {
                 type: ACTIONS.ADMIN_SELECT_ROOM,
                 currentRoom: result[0]
             })
+            return result[0]
+        }).then((result) => {
+            socket.emit('loadMsg', result)
         }).catch(() => {})
     }
 }
 
-export const selectRoom = (id) => {
-    return dispatch => {
-        axios.get('/room/getMessage', { withCredentials: true })
-        .then(response => {
-            dispatch({
-                type: ACTIONS.ADMIN_SELECT_ROOM,
-                currentRoom: response.data.room
-            })
-        })
+export const receiveMessagesData = (messages) => {
+    return {
+        type: ACTIONS.ADMIN_FETCH_MESSAGES,
+        messages
+    }
+}
+
+export const receiveMessage = (message) => {
+    return {
+        type: ACTIONS.ADMIN_RECEIVE_MESSAGE,
+        message: {...message, msg: message.content, userSentID: message.userSentId}
     }
 }
 

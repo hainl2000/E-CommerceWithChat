@@ -3,15 +3,20 @@ import { useStyles } from "./style"
 import SendIcon from '@material-ui/icons/Send';
 import { roomListSelector, currentRoomSelector } from '../../Selectors/adminSelector'
 import { useSelector, useDispatch } from 'react-redux'
-import { useEffect, useState } from "react";
-import { sentMessage } from "../../Actions/adminActions";
+import { useEffect, useState, useRef } from "react";
+import { receiveMessage, sentMessage } from "../../Actions/adminActions";
 import { socket } from '../../socket'
+import { messagesSelector } from "../../Selectors/adminSelector";
+import { userIdSelector } from "../../Selectors/uiSelector";
 
 const Inbox = () => {
     const dispatch = useDispatch()
+    const bottom = useRef(null)
     const classes = useStyles()
     const rooms = useSelector(roomListSelector)
     const currentRoom = useSelector(currentRoomSelector)
+    const messages = useSelector(messagesSelector)
+    const id = useSelector(userIdSelector)
     const [text, setText] = useState('')
 
     const selectRoomHandle = (id) => {
@@ -25,13 +30,23 @@ const Inbox = () => {
 
     useEffect(() => {
         socket.on('msgSent', data => {
-            console.log(data)
+            console.log(data.result)
+            dispatch(receiveMessage(data.result))
+        })
+
+        socket.on('newMsgReceived', data => {
+            dispatch(receiveMessage(data.result))
         })
 
         return () => {
             socket.off('msgSent')
+            socket.off('newMsgReceived')
         }
     }, [socket])
+
+    useEffect(() => {
+        bottom.current.scrollIntoView({ behavior: 'smooth' })
+    }, [messages])
 
     return (
         <Box className={classes.inboxContainer}>
@@ -47,13 +62,14 @@ const Inbox = () => {
             </Box>
             <Box className={classes.inboxWindow}>
                 <Box className={classes.textContainer}>
-                    {/* {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map(item =>
-                        <Box className={classes.textBuble}>
+                    {messages.map((item, index) =>
+                        <Box key={index} className={item.userSentID === id ? classes.textBubleAdmin : classes.textBubleCustomer}>
                             <Typography>
-                                abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc 
+                                {item.msg}
                             </Typography>
                         </Box>
-                    )} */}
+                    )}
+                    <div ref={bottom}/>
                 </Box>
                 <FormControl className={classes.inboxForm}>
                     <TextField

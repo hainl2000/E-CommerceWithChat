@@ -9,7 +9,6 @@ export const fetchMessages = (data) => {
 }
 
 export const receiveMessagesData = (data) => {
-    console.log(data.Msgs)
     return {
         type: ACTIONS.FETCH_MESSAGES,
         data: data.Msgs || []
@@ -23,7 +22,7 @@ export const sentMessage = (text) => {
 export const receiveMessage = (text) => {
     return {
         type: ACTIONS.RECEIVE_MESSAGE,
-        message: {...text, msg: text.content}
+        message: {...text, msg: text.content, userSentID: text.userSentId}
     }
 }
 

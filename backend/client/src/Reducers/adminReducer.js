@@ -2,7 +2,8 @@ import { constance as ACTIONS } from '../constance'
 
 const initialState = {
     rooms: [],
-    currentRoom: null
+    currentRoom: null,
+    conversations: []
 }
 
 export const adminReducer = (state = initialState, action) => {
@@ -18,6 +19,18 @@ export const adminReducer = (state = initialState, action) => {
             return {
                 ...state,
                 currentRoom: action.currentRoom
+            }
+
+        case ACTIONS.ADMIN_FETCH_MESSAGES:
+            return {
+                ...state,
+                conversations: action.messages
+            }
+
+        case ACTIONS.ADMIN_RECEIVE_MESSAGE:
+            return {
+                ...state,
+                conversations: [...state.conversations, action.message]
             }
 
         default: return state
