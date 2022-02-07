@@ -106,10 +106,16 @@ io.on("connection", function(socket){
     // console.log(userId.userId);
     //data = {role, roomId, msg}
     socket.on('sendNewMsg', async (data) =>
-    {
+    {   
+
         msgController.sendMsg(data.role === 0 ? data.roomId : userId.userId, userId.userId, data.msg).then(result => {
-        socket.emit('msgSent', { result, key: 'aaa' });
-    });
+            socket.emit('msgSent', { result, key: 'aaa' });
+        });
+        let receiverSocket = roomAction.findConnectedUser(data.role === 0? data.roomId : admin);
+        if(receiverSocket)
+        {
+            io.to(receiver.socketId).emit('newMsgReceived', { newMsg })
+        }
     //   console.log('admin', admin, data.role)
     //   if(data.role === 1)
         // var receiver = roomAction.findConnectedUser(admin);
