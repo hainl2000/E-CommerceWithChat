@@ -96,6 +96,7 @@ io.on("connection", function(socket){
 
     const admin = '61b0ee2561089363649b5e4f'
     socket.on('loadMsg',async (data) => {
+        console.log(data)
         const Msgs = await roomController.loadMessages(data.roomId);
         socket.emit('messagesLoaded', { Msgs })
         // if(user.role == 1){

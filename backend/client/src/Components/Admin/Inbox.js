@@ -4,7 +4,7 @@ import SendIcon from '@material-ui/icons/Send';
 import { roomListSelector, currentRoomSelector } from '../../Selectors/adminSelector'
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState, useRef } from "react";
-import { receiveMessage, sentMessage } from "../../Actions/adminActions";
+import { receiveMessage, sentMessage, selectRoom, switchRoom } from "../../Actions/adminActions";
 import { socket } from '../../socket'
 import { messagesSelector } from "../../Selectors/adminSelector";
 import { userIdSelector } from "../../Selectors/uiSelector";
@@ -19,8 +19,9 @@ const Inbox = () => {
     const id = useSelector(userIdSelector)
     const [text, setText] = useState('')
 
-    const selectRoomHandle = (id) => {
-
+    const selectRoomHandle = (room) => {
+        selectRoom(room)
+        dispatch(switchRoom(room))
     }
 
     const sentMessageHandle = () => {
@@ -52,7 +53,7 @@ const Inbox = () => {
         <Box className={classes.inboxContainer}>
             <Box className={classes.inboxList}>
                 {rooms.map(room => (
-                    <Box  key={room.roomId} className={classes.userCell} onClick={() => selectRoomHandle(room.roomId)}>
+                    <Box  key={room.roomId} className={classes.userCell} onClick={() => selectRoomHandle(room)}>
                         <Avatar>{room.roomName[0]}</Avatar>
                         <Typography>
                             {room.roomName}
