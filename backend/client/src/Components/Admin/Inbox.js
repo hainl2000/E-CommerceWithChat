@@ -53,9 +53,9 @@ const Inbox = () => {
             <Box className={classes.inboxList}>
                 {rooms.map(room => (
                     <Box  key={room.roomId} className={classes.userCell} onClick={() => selectRoomHandle(room.roomId)}>
-                        <Avatar>U</Avatar>
+                        <Avatar>{room.roomName[0]}</Avatar>
                         <Typography>
-                            User
+                            {room.roomName}
                         </Typography>
                     </Box>
                 ))}
@@ -94,8 +94,8 @@ const Inbox = () => {
             </Box>
             <Box className={classes.userInfo}>
                 <Box className={classes.avatarContainer}>
-                    <Avatar className={classes.avatar}>U</Avatar>
-                    <Typography variant="h4">User 1</Typography>
+                    <Avatar className={classes.avatar}>{currentRoom?.roomName.toUpperCase()[0]}</Avatar>
+                    <Typography variant="h4">{currentRoom?.roomName}</Typography>
                 </Box>
                 <Divider variant="middle"/>
             </Box>

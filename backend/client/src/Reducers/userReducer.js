@@ -38,7 +38,8 @@ export const userReducer = (state = initialState, action) => {
         case ACTIONS.LOGOUT:
             return {
                 ...state,
-                login: false
+                login: false,
+                role: null
             }
             
         default: return state

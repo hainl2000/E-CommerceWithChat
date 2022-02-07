@@ -32,7 +32,7 @@ import { loginErrorSelector } from '../../Selectors/uiSelector'
 import { useSelector, useDispatch } from 'react-redux'
 import { login } from '../../Actions/userActions';
 import { fetchRooms } from "../../Actions/adminActions";
-import { getLoginStatus } from '../../Actions/userActions'
+import { getLoginStatus, signout } from '../../Actions/userActions'
 
 const Admin = () => {
     const classes = useStyles()
@@ -56,6 +56,8 @@ const Admin = () => {
 
     const loginHandle = () => {
         dispatch(login(email, password))
+        setEmail('')
+        setPassword('')
     }
 
     useEffect(() => {
@@ -66,6 +68,10 @@ const Admin = () => {
             dispatch(getLoginStatus())
         }
     }, [role])
+
+    const logOutHandle = () => {
+        dispatch(signout())
+    }
 
     return (
         <Box className={classes.root}>
@@ -82,7 +88,7 @@ const Admin = () => {
                 </Tabs>
                 <Box className={classes.admin_action}>
                     <Avatar className={classes.admin_avatar}>A</Avatar>
-                    <Button color='secondary' variant='contained' size="small">Đăng xuất</Button>
+                    <Button color='secondary' variant='contained' size="small" onClick={logOutHandle}>Đăng xuất</Button>
                 </Box>
             </Box>
             <Box className={classes.panelContainer}>
