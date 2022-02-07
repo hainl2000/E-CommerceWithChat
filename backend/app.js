@@ -111,7 +111,7 @@ io.on("connection", function(socket){
         msgController.sendMsg(data.role === 0 ? data.roomId : userId.userId, userId.userId, data.msg).then(result => {
             socket.emit('msgSent', { result, key: 'aaa' });
         });
-        const receiverSocket = roomAction.findConnectedUser(data.role === 0? data.roomId : admin);
+        let receiverSocket = roomAction.findConnectedUser(data.role === 0? data.roomId : admin);
         if(receiverSocket)
         {
             io.to(receiver.socketId).emit('newMsgReceived', { newMsg })
