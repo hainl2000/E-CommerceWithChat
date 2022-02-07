@@ -3,7 +3,7 @@ import { useEffect } from "react"
 import { Home, Admin, Cart, Category, ProductInfo } from '../Pages'
 import { socket } from '../socket'
 import { useDispatch } from 'react-redux'
-import { receiveMessagesData, fetchMessages } from "../Actions/userActions"
+import { receiveMessagesData, fetchMessages, receiveMessage } from "../Actions/userActions"
 import { useSelector } from "react-redux"
 import { userIdSelector } from "../Selectors/uiSelector"
 
@@ -13,7 +13,6 @@ const User = ({type = 'home'}) => {
 
     useEffect(() => {
         socket.on('messagesLoaded', data => {
-            // console.log(data)
             dispatch(receiveMessagesData(data))
         })
 

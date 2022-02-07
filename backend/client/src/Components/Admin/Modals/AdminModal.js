@@ -27,10 +27,6 @@ const AdminModal = ({add = false, edit = false, view = false, open = false, setO
 
         return <></>
     }
-
-    useEffect(() => {
-        console.log(add, edit, view)
-    }, [])
     
     return (
         <Modal

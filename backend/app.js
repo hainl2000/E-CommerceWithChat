@@ -94,7 +94,7 @@ io.on("connection", function(socket){
         })
     }
 
-    const admin = '61c5f8d8c2d8f5b84ef5edb9'
+    const admin = '61b0ee2561089363649b5e4f'
     socket.on('loadMsg',async (data) => {
         const Msgs = await roomController.loadMessages(data.roomId);
         socket.emit('messagesLoaded', { Msgs })
@@ -110,12 +110,15 @@ io.on("connection", function(socket){
 
         msgController.sendMsg(data.role === 0 ? data.roomId : userId.userId, userId.userId, data.msg).then(result => {
             socket.emit('msgSent', { result, key: 'aaa' });
+            console.log(data.role)
+            let receiverSocket = roomAction.findConnectedUser(data.role === 0? data.roomId : admin);
+            console.log(receiverSocket === undefined)
+            if(receiverSocket)
+            {
+                console.log('sent')
+                io.to(receiverSocket.socketId).emit('newMsgReceived', { result })
+            }
         });
-        let receiverSocket = roomAction.findConnectedUser(data.role === 0? data.roomId : admin);
-        if(receiverSocket)
-        {
-            io.to(receiver.socketId).emit('newMsgReceived', { newMsg })
-        }
     //   console.log('admin', admin, data.role)
     //   if(data.role === 1)
         // var receiver = roomAction.findConnectedUser(admin);
