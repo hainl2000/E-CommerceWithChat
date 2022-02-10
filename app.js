@@ -11,7 +11,8 @@ var app = express();
 
 
 var http = require('http')
-const server = app.listen(8000, () => console.log(`Running on port 8000`))
+const port = process.env.PORT || 8000;
+const server = app.listen(port, () => console.log(`Running on port 8000`))
 var socket = require('socket.io');
 
 const io = socket(server)
