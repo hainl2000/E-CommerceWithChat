@@ -12,7 +12,7 @@ var app = express();
 
 var http = require('http')
 const port = process.env.PORT || 8000;
-const server = app.listen(port, () => console.log(`Running on port 8000`))
+const server = app.listen(port, () => console.log(`Running on port ${port}`))
 var socket = require('socket.io');
 
 const io = socket(server)
