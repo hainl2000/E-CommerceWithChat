@@ -1,13 +1,13 @@
 import { Avatar, Box, Divider, FormControl, InputAdornment, TextField, Typography } from "@material-ui/core"
 import { useStyles } from "./style"
 import SendIcon from '@material-ui/icons/Send';
-import { roomListSelector, currentRoomSelector } from '../../Selectors/adminSelector'
+import { roomListSelector, currentRoomSelector } from '../../../Selectors/admin.selector'
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState, useRef } from "react";
-import { receiveMessage, sentMessage, selectRoom, switchRoom } from "../../Actions/adminActions";
-import { socket } from '../../socket'
-import { messagesSelector } from "../../Selectors/adminSelector";
-import { userIdSelector } from "../../Selectors/uiSelector";
+import { receiveMessage, sentMessage, switchRoom, selectRoom } from "../../../Actions/admin.action";
+import { socket } from '../../../socket'
+import { messagesSelector } from "../../../Selectors/admin.selector";
+import { userIdSelector } from "../../../Selectors/ui.selector";
 
 const Inbox = () => {
     const dispatch = useDispatch()
@@ -31,7 +31,6 @@ const Inbox = () => {
 
     useEffect(() => {
         socket.on('msgSent', data => {
-            console.log(data.result)
             dispatch(receiveMessage(data.result))
         })
 
@@ -54,7 +53,7 @@ const Inbox = () => {
             <Box className={classes.inboxList}>
                 {rooms.map(room => (
                     <Box  key={room.roomId} className={classes.userCell} onClick={() => selectRoomHandle(room)}>
-                        <Avatar>{room.roomName[0]}</Avatar>
+                        <Avatar>{room.roomName.toUpperCase()[0]}</Avatar>
                         <Typography>
                             {room.roomName}
                         </Typography>
@@ -63,7 +62,7 @@ const Inbox = () => {
             </Box>
             <Box className={classes.inboxWindow}>
                 <Box className={classes.textContainer}>
-                    {messages.map((item, index) =>
+                    {messages?.map((item, index) =>
                         <Box key={index} className={item.userSentID === id ? classes.textBubleAdmin : classes.textBubleCustomer}>
                             <Typography>
                                 {item.msg}
@@ -95,8 +94,8 @@ const Inbox = () => {
             </Box>
             <Box className={classes.userInfo}>
                 <Box className={classes.avatarContainer}>
-                    <Avatar className={classes.avatar}>{currentRoom?.roomName.toUpperCase()[0]}</Avatar>
-                    <Typography variant="h4">{currentRoom?.roomName}</Typography>
+                    <Avatar className={classes.avatar}>{currentRoom.roomName?.toUpperCase()[0]}</Avatar>
+                    <Typography variant="h4">{currentRoom.roomName}</Typography>
                 </Box>
                 <Divider variant="middle"/>
             </Box>

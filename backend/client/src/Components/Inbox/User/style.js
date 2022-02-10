@@ -48,8 +48,9 @@ export const useStyles = makeStyles((theme) => ({
         width: 100
     },
     drawer: {
-        width: 400,
-        height: '100%',
+        width: '90%',
+        margin: 'auto',
+        height: '90%',
         boxSizing: 'border-box',
         paddingRight: 10,
         paddingLeft: 10,
@@ -58,7 +59,7 @@ export const useStyles = makeStyles((theme) => ({
     },
     textContainer: {
         marginTop: 20,
-        height: '80vh',
+        height: '75vh',
         overflowY: 'auto',
         paddingLeft: 5,
         paddingRight: 5

@@ -8,11 +8,11 @@ import {
 } from '@material-ui/core'
 import { useState, useRef, useEffect } from 'react'
 import SendIcon from '@material-ui/icons/Send';
-import { useStyles } from '../style';
+import { useStyles } from './style';
 import { useDispatch, useSelector } from "react-redux";
-import { messagesSelector } from '../../../Selectors/userSelector';
-import { receiveMessage, sentMessage } from '../../../Actions/userActions';
-import { userIdSelector } from '../../../Selectors/uiSelector'
+import { messagesSelector } from '../../../Selectors/user.selector';
+import { receiveMessage, sentMessage, receiveMessagesData } from '../../../Actions/user.action';
+import { userIdSelector } from '../../../Selectors/ui.selector'
 import { socket } from '../../../socket';
 
 const Inbox = () => {
@@ -44,15 +44,20 @@ const Inbox = () => {
             endText.current?.scrollIntoView({ behavior: 'smooth' })
         })
 
+        socket.on('messagesLoaded', data => {
+            dispatch(receiveMessagesData(data))
+            endText.current?.scrollIntoView({ behavior: 'smooth' })
+        })
+
         return () => {
             socket.off('msgSent')
             socket.off('newMsgReceived')
+            socket.off('messagesLoaded')
         }
     }, [socket])
 
     return (
         <Box className={classes.drawer}>
-            <Typography variant='h5'>Trợ giúp</Typography>
             <Paper elevation={5} className={classes.textContainer}>
                 {messages.map((textItem, index) => {
                     return (

@@ -1,6 +1,7 @@
-import { constance as ACTIONS } from '../constance'
-import axios from 'axios'
-import { socket } from '../socket'
+import { constances as ACTIONS } from "../constances";
+import { socket } from "../socket"
+
+import axios from "axios";
 
 export const fetchRooms = () => {
     return dispatch => {
@@ -46,13 +47,13 @@ export const createProduct = (product) => {
     .then(response => console.log(response))
 }
 
-export const selectRoom = (id) => {
-    socket.emit('loadMsg', id)
-}
-
 export const switchRoom = (room) => {
     return {
         type: ACTIONS.ADMIN_SELECT_ROOM,
         currentRoom: room
     }
+}
+
+export const selectRoom = (id) => {
+    socket.emit('loadMsg', id)
 }

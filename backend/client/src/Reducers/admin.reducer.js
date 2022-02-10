@@ -1,9 +1,9 @@
-import { constance as ACTIONS } from '../constance'
+import { constances as ACTIONS } from "../constances";
 
 const initialState = {
     rooms: [],
-    currentRoom: null,
-    conversations: []
+    currentRoom: [],
+    messages: []
 }
 
 export const adminReducer = (state = initialState, action) => {
@@ -32,7 +32,7 @@ export const adminReducer = (state = initialState, action) => {
                 ...state,
                 conversations: [...state.conversations, action.message]
             }
-
+            
         default: return state
     }
 }

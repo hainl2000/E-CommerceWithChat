@@ -26,16 +26,14 @@ import SearchIcon from '@material-ui/icons/Search';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import HelpIcon from '@material-ui/icons/Help';
 import { LoginModal, SignUpModal } from '../MyModal';
-import Inbox from './Inbox';
+// import Inbox from './Inbox';
 import { useStyles } from './style';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { productsCartSelector } from '../../Selectors/cartSelector';
-import { searchProduct } from '../../Actions/productActions';
-import { updateLoginError, updateProductsTitle, updateViewType } from '../../Actions/uiActions';
-import { loginStatusSelector } from '../../Selectors/userSelector';
-import { modalNavberSelector, usernameSelector } from '../../Selectors/uiSelector'
-import { signout } from '../../Actions/userActions';
+import { updateLoginError, updateProductsTitle, updateViewType } from '../../Actions/ui.action';
+import { loginStatusSelector } from '../../Selectors/user.selector';
+import { modalNavberSelector, usernameSelector } from '../../Selectors/ui.selector'
+import { signout } from '../../Actions/user.action';
 
 const StyledMenu = withStyles({
     paper: {
@@ -61,38 +59,24 @@ const NavBar = () => {
     const classes = useStyles()
     const [searchValue, setSearchValue] = useState('')
     const [anchorEl, setAnchorEl] = useState(null)
-    const [openDrawer, setOpenDrawer] = useState(false)
     const [endTextEl, setEndTextEl] = useState(null)
-    const [missTextCount, setMissTextCount] = useState(2)
     const endText = useRef(null)
     const top = useRef(null)
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const products = useSelector(productsCartSelector)
-    const modalType = useSelector(modalNavberSelector)
     const login = useSelector(loginStatusSelector)
     const username = useSelector(usernameSelector)
-
-    //test
     const [openModal, setOpenModal] = useState(false)
-
-    const closeModalHandle = () => {
-        setOpenModal(false)
-        dispatch(updateLoginError(false))
-    }
-    //
-
-    const searchClickHandle = () => {
-        dispatch(searchProduct(searchValue))
-        dispatch(updateProductsTitle(`Result for '${searchValue}'`))
-        dispatch(updateViewType('search'))
-        setSearchValue('')
-        navigate('/category')
-    }
+    const modalType = useSelector(modalNavberSelector)
 
     const handleClose = () => {
         dispatch(signout())
         setAnchorEl(null)
+    }
+
+    const closeModalHandle = () => {
+        setOpenModal(false)
+        dispatch(updateLoginError(false))
     }
 
     const avatarClickHandle = e => {
@@ -101,9 +85,9 @@ const NavBar = () => {
 
     const getModal = () => {
         if (modalType === 'login')
-            return <LoginModal open={openModal} closeHandle={closeModalHandle}/>
+            return <LoginModal open={!login} closeHandle={closeModalHandle}/>
         else
-            return <SignUpModal open={openModal} closeHandle={closeModalHandle}/>
+            return <SignUpModal open={!login} closeHandle={closeModalHandle}/>
     }
 
     useEffect(() => {
@@ -119,53 +103,11 @@ const NavBar = () => {
         <div ref={top} className={classes.root}>
             <AppBar position='static'>
                 <Toolbar>
-                    <IconButton edge='start' className={classes.menuButton} color='inherit' aria-label='menu' onClick={() => navigate('/')}>
-                        <HomeIcon />
-                    </IconButton>
                     <Typography variant='h6' className={classes.title}>
-                        App
+                        Hỗ trợ khách hàng
                     </Typography>
-                    <Box className={classes.formContainer}>
-                        <FormControl>
-                            <TextField
-                                variant='outlined'
-                                size='small'
-                                placeholder='Search...'
-                                value={searchValue}
-                                onChange={e => setSearchValue(e.target.value)}
-                                onKeyUp={e => {
-                                    if (e.key === 'Enter')
-                                        searchClickHandle()
-                                }}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position='end'>
-                                            <SearchIcon
-                                                className={classes.searchButton}
-                                                onClick={searchClickHandle}
-                                            />
-                                        </InputAdornment>
-                                    )
-                                }}
-                            />
-                        </FormControl>
-                    </Box>
                     <Box component="div" className={classes.buttonContainer}>
-                        {login && 
-                        <IconButton onClick={() => {
-                            setOpenDrawer(true)
-                            setMissTextCount(0)
-                        }}>
-                            <Badge badgeContent={missTextCount} color='secondary'>
-                                <HelpIcon />
-                            </Badge>
-                        </IconButton>}
-                        <IconButton onClick={() => navigate('/cart/1')}>
-                            <Badge badgeContent={products.length} color='secondary'>
-                                <ShoppingCartIcon className={login ? classes.cartIcon : classes.cartIcon_extend}/>
-                            </Badge>
-                        </IconButton>
-                        {login ? <Avatar className={classes.avatar} onClick={e => avatarClickHandle(e)}>{username.toUpperCase()[0]}</Avatar> : <Button className={classes.button} onClick={() => setOpenModal(true)} color='inherit'>Đăng nhập</Button>}
+                        <Avatar className={classes.avatar} onClick={e => avatarClickHandle(e)}>{username.toUpperCase()[0]}</Avatar>
                         <StyledMenu
                             anchorEl={anchorEl}
                             open={Boolean(anchorEl)}
@@ -176,13 +118,10 @@ const NavBar = () => {
                     </Box>
                 </Toolbar>
             </AppBar>
-            <Drawer anchor='right' open={openDrawer} onClose={() => setOpenDrawer(false)}>
+            {/* <Drawer anchor='right' open={openDrawer} onClose={() => setOpenDrawer(false)}>
                 <Inbox/>
-            </Drawer>
+            </Drawer> */}
             {getModal()}
-            <IconButton className={classes.scrollToTopButton} onClick={() => top.current.scrollIntoView()}>
-                <ArrowUpwardIcon fontSize='large'/>
-            </IconButton>
         </div>
     )
 }

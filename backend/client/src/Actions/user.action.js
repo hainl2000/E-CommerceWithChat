@@ -1,5 +1,6 @@
-import { constance as ACTIONS } from "../constance";
+import { constances as ACTIONS } from "../constances";
 import { socket } from "../socket";
+
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import jwt from 'jsonwebtoken';

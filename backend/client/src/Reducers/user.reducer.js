@@ -1,4 +1,4 @@
-import { constance as ACTIONS } from '../constance'
+import { constances as ACTIONS } from "../constances";
 
 const initialState = {
     messages: [],
@@ -38,10 +38,9 @@ export const userReducer = (state = initialState, action) => {
         case ACTIONS.LOGOUT:
             return {
                 ...state,
-                login: false,
-                role: null
+                login: false
             }
-            
+
         default: return state
     }
 }
