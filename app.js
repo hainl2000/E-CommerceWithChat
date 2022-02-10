@@ -9,6 +9,7 @@ var cookie = require('cookie')
 
 var app = express();
 
+
 var http = require('http')
 const server = app.listen(8000, () => console.log(`Running on port 8000`))
 var socket = require('socket.io');
@@ -33,8 +34,8 @@ const mongo = require('./mongo');
 mongo();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'jade');
 // app.engine('html', require('jade').renderFile);
 // app.set('view engine', 'html');
 
@@ -43,11 +44,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(bodyParser.json())
-app.use(express.static(path.join(__dirname, 'build')));
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
+// app.use(express.static(path.join(__dirname, 'build')));
+
+// app.get('/', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'build', 'index.html'));
+// });
+
+app.use(express.static(path.join(__dirname + '/client/build')))
+
+app.get('/', (request, response) => {
+    response.sendFile(path.join(__dirname + '/client/build/index.html'))
+})  
+
+app.get('/admin', (request, response) => {
+    response.sendFile(path.join(__dirname + '/client/build/index.html'))
+})
 
 //CORS
 const corsConfig = {
@@ -56,12 +68,14 @@ const corsConfig = {
 };
 app.use(cors(corsConfig));
 
+
+
 //
 app.use('/', indexRouter);
 app.use('/chat',roomRouter);
 app.use('/user', authorizationMiddleware.authorizeUser,userRouter);
 app.use('/admin', authorizationMiddleware.authorizeAdmin,adminRouter);
-app.use('/room', roomRouter)
+app.use('/room', roomRouter);
 // app.use('/supporter');
 
 
