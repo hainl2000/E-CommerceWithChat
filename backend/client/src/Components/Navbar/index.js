@@ -63,7 +63,7 @@ const NavBar = () => {
     const [anchorEl, setAnchorEl] = useState(null)
     const [openDrawer, setOpenDrawer] = useState(false)
     const [endTextEl, setEndTextEl] = useState(null)
-    const [missTextCount, setMissTextCount] = useState(2)
+    const [missTextCount, setMissTextCount] = useState(0)
     const endText = useRef(null)
     const top = useRef(null)
     const navigate = useNavigate()

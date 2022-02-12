@@ -14,7 +14,8 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import RemoveIcon from '@material-ui/icons/Remove';
 
 import { allCategoriesSelector } from '../../../Selectors/categorySelector'
-import { createProduct } from '../../../Actions/adminActions'
+import { productSelector } from '../../../Selectors/adminSelector';
+import { updateProduct } from '../../../Actions/adminActions'
 import { useStyles } from '../style'
 
 const EditModal = () => {
@@ -25,13 +26,14 @@ const EditModal = () => {
     const [imageURL, setImageUrl] = useState('')
     const [description, setDescription] = useState('')
     const [imageList, setImageList] = useState([])
-    const [selectedCate, setSelectedCate] = useState()
+    const [selectedCate, setSelectedCate] = useState(0)
 
     const cate = useSelector(allCategoriesSelector)
+    const data = useSelector(productSelector)
 
     useEffect(() => {
-        setSelectedCate(cate[0]._id)
-    }, [cate])
+        setSelectedCate(cate.findIndex(c => c._id === data.category))
+    }, [cate, data])
     
     const discardImageHandle = (index) => {
         const newList = imageList.filter((image, _index) => index !== _index)
@@ -45,13 +47,23 @@ const EditModal = () => {
     }
 
     const submitHandle = () => {
-        createProduct({
+        updateProduct({
             nameProduct: name,
             imageURL: imageList[0]?.url,
             quantity: quantity,
-            price: price
+            price: price,
+            category: cate[selectedCate]._id,
+            description: description
         })
     }
+
+    useEffect(() => {
+        setName(data.nameProduct)
+        setQuantity(data.quantity)
+        setPrice(data.price)
+        setImageList([...imageList, { url: data.imageURL }])
+        setDescription(data.description)
+    }, [data])
 
     return (
 
@@ -102,7 +114,7 @@ const EditModal = () => {
                             value={selectedCate}
                             onChange={e => setSelectedCate(e.target.value)}
                         >
-                            {cate.map(c => (<MenuItem key={c._id} value={c._id}>{c.nameCategory}</MenuItem>))}
+                            {cate.map((c, index) => (<MenuItem key={index} value={index}>{c.nameCategory}</MenuItem>))}
                         </Select>
                     </FormControl>
                 </Box>

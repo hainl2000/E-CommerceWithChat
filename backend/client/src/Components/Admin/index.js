@@ -73,6 +73,23 @@ const Admin = () => {
         dispatch(signout())
     }
 
+    useEffect(() => {
+        console.log(value)
+    }, [value])
+
+    const getPanel = () => {
+        switch (value)
+        {
+            case 0:
+                return <ProductList setOpenModal={setOpenModal} setModalType={setModalType} />
+
+            case 1:
+                return <Inbox/>
+            
+            default: return null
+        }
+    }
+
     return (
         <Box className={classes.root}>
             <Box className={classes.admin_navbar}>
@@ -92,51 +109,9 @@ const Admin = () => {
                 </Box>
             </Box>
             <Box className={classes.panelContainer}>
-                <Inbox/>
-                {/* <ProductList setOpenModal={setOpenModal} setModalType={setModalType}/> */}
-                {/* <Box className={classes.tool}>
-                    <FormControl className={classes.form}>
-                        <TextField
-                            variant='outlined'
-                            size='small'
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <SearchIcon className={classes.searchIcon}/>
-                                    </InputAdornment>
-                                )
-                            }}
-                        />
-                    </FormControl>
-                    <AddBoxIcon fontSize="large" className={classes.icon} onClick={() => {
-                        setOpenModal(true)
-                        setModalType('add')
-                    }}/>
-                </Box>
-                <Box className={classes.panels}>
-                    {product_data.map((product, index) => 
-                        <Box key={index} className={classes.productCell}>
-                            <img src={product.image} width={100} height={100} alt='product'/>
-                            <Box className={classes.productInfo}>
-                                <Typography variant='h6'>
-                                    {product.name}
-                                </Typography>
-                                <Typography>
-                                    {Intl.NumberFormat().format(product.price)} VND
-                                </Typography>
-                            </Box>
-                            <VisibilityIcon className={classes.icon} onClick={() => {
-                                setOpenModal(true)
-                                setModalType('view')
-                            }}/>
-                            <EditIcon className={classes.icon} onClick={() => {
-                                setOpenModal(true)
-                                setModalType('edit')
-                            }}/>
-                            <DeleteForeverIcon className={classes.icon} onClick={() => setOpenModal(true)}/>
-                        </Box>
-                    )}
-                </Box> */}
+                {getPanel()}
+                {/* <Inbox/>
+                <ProductList setOpenModal={setOpenModal} setModalType={setModalType}/> */}
             </Box>
             <Modal
                 open={role !== 0}

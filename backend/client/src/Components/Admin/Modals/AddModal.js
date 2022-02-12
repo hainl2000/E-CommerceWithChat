@@ -25,12 +25,12 @@ const AddModal = () => {
     const [imageURL, setImageUrl] = useState('')
     const [description, setDescription] = useState('')
     const [imageList, setImageList] = useState([])
-    const [selectedCate, setSelectedCate] = useState()
+    const [selectedCate, setSelectedCate] = useState(0)
 
     const cate = useSelector(allCategoriesSelector)
 
     useEffect(() => {
-        setSelectedCate(cate[0]._id)
+        setSelectedCate(0)
     }, [cate])
     
     const discardImageHandle = (index) => {
@@ -49,7 +49,9 @@ const AddModal = () => {
             nameProduct: name,
             imageURL: imageList[0]?.url,
             quantity: quantity,
-            price: price
+            price: price,
+            category: cate[selectedCate]._id,
+            description: description
         })
     }
 
@@ -102,7 +104,7 @@ const AddModal = () => {
                             value={selectedCate}
                             onChange={e => setSelectedCate(e.target.value)}
                         >
-                            {cate.map(c => (<MenuItem key={c._id} value={c._id}>{c.nameCategory}</MenuItem>))}
+                            {cate.map((c, index) => (<MenuItem key={index} value={index}>{c.nameCategory}</MenuItem>))}
                         </Select>
                     </FormControl>
                 </Box>

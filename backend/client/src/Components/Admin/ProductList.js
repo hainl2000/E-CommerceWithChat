@@ -10,17 +10,23 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import VisibilityIcon from '@material-ui/icons/Visibility';
-import { product_data } from '../Cart/data';
 import { useStyles } from './style';
+import { activeProductsSelector } from '../../Selectors/productSelector';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectProduct } from '../../Actions/adminActions';
 
 const ProductList = ({ setOpenModal, setModalType }) => {
     const classes = useStyles()
+    const dispatch = useDispatch()
+
+    const products = useSelector(activeProductsSelector)
 
     const openViewHandle = () => {
         setModalType('view')
         setOpenModal(true)
     }
-    const openEditHandle = () => {
+    const openEditHandle = (product) => {
+        dispatch(selectProduct(product))
         setModalType('edit')
         setOpenModal(true)
     }
@@ -48,19 +54,24 @@ const ProductList = ({ setOpenModal, setModalType }) => {
                 <AddBoxIcon fontSize="large" className={classes.icon} onClick={openAddModal}/>
             </Box>
             <Box className={classes.panels}>
-                {product_data.map((product, index) => 
+                {products.map((product, index) => 
                     <Box key={index} className={classes.productCell}>
-                        <img src={product.image} width={100} height={100} alt='product'/>
+                        <img src={product.imageURL} width={100} height={100} alt='product'/>
                         <Box className={classes.productInfo}>
                             <Typography variant='h6'>
-                                {product.name}
+                                {product.nameProduct}
                             </Typography>
-                            <Typography>
-                                {Intl.NumberFormat().format(product.price)} VND
-                            </Typography>
+                            <Box>
+                                <Typography>
+                                    {Intl.NumberFormat().format(product.price)} $
+                                </Typography>
+                                <Typography>
+                                    {product.description}
+                                </Typography>
+                            </Box>
                         </Box>
                         <VisibilityIcon className={classes.icon} onClick={openViewHandle}/>
-                        <EditIcon className={classes.icon} onClick={openEditHandle}/>
+                        <EditIcon className={classes.icon} onClick={() => openEditHandle(product)}/>
                         <DeleteForeverIcon className={classes.icon}/>
                     </Box>
                 )}

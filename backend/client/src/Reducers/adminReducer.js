@@ -3,7 +3,8 @@ import { constance as ACTIONS } from '../constance'
 const initialState = {
     rooms: [],
     currentRoom: null,
-    conversations: []
+    conversations: [],
+    product: undefined
 }
 
 export const adminReducer = (state = initialState, action) => {
@@ -31,6 +32,12 @@ export const adminReducer = (state = initialState, action) => {
             return {
                 ...state,
                 conversations: [...state.conversations, action.message]
+            }
+
+        case ACTIONS.ADMIN_SELECT_PRODUCT:
+            return {
+                ...state,
+                product: action.product
             }
 
         default: return state

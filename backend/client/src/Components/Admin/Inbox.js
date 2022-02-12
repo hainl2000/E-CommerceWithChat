@@ -31,7 +31,6 @@ const Inbox = () => {
 
     useEffect(() => {
         socket.on('msgSent', data => {
-            console.log(data.result)
             dispatch(receiveMessage(data.result))
         })
 
