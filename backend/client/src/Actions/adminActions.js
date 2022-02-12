@@ -51,6 +51,11 @@ export const updateProduct = (product) => {
     .then(response => console.log(response))
 }
 
+export const removeProduct = (productId) => {
+    axios.post('/admin/product/', productId, { withCredentials: true })
+    .then(response => console.log(response))
+}
+
 export const selectRoom = (id) => {
     socket.emit('loadMsg', id)
 }

@@ -259,5 +259,19 @@ export const useStyles = makeStyles(() => ({
             paddingRight: 10,
             paddingTop: 20
         }
+    },
+    confirmModal: {
+        background: '#fff',
+        width: 400,
+        textAlign: 'center',
+        padding: 20,
+        margin: 'auto',
+        marginTop: 250,
+        '& > button': {
+            marginTop: 20,
+            marginRight: 10,
+            marginLeft: 10,
+            width: 150
+        }
     }
 }))
